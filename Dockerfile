@@ -21,10 +21,10 @@ FROM nginx:alpine
 # Copy built files to nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy nginx configuration template (uses envsubst for PORT variable)
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 
-# Expose port
+# Expose port (Railway sets PORT dynamically)
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
