@@ -139,6 +139,9 @@
       "payment": "Payment Method",
       "cash": "Cash on Delivery",
       "card": "Credit Card",
+      "cardDetails": "Card Details",
+      "cardNumber": "Card Number",
+      "cardExpiry": "Expiry Date",
       "confirm": "Confirm Order",
       "success": "Order Confirmed!",
       "orderNumber": "Order Number"

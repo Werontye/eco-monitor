@@ -139,6 +139,9 @@
       "payment": "To'lov usuli",
       "cash": "Naqd pul",
       "card": "Bank kartasi",
+      "cardDetails": "Karta ma'lumotlari",
+      "cardNumber": "Karta raqami",
+      "cardExpiry": "Amal qilish muddati",
       "confirm": "Buyurtmani tasdiqlash",
       "success": "Buyurtma tasdiqlandi!",
       "orderNumber": "Buyurtma raqami"

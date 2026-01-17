@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingCart, Plus, Minus, Trash2, CheckCircle, Leaf, Droplets, Package, Shell } from 'lucide-react'
+import { ShoppingCart, Plus, Minus, Trash2, CheckCircle, Leaf, Droplets, Package, Shell, CreditCard, Banknote } from 'lucide-react'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
@@ -40,6 +40,9 @@ export default function HelpNow() {
     phone: '',
     address: '',
     paymentMethod: 'cash',
+    cardNumber: '',
+    cardExpiry: '',
+    cardCvc: '',
   })
 
   const filteredProducts = activeCategory === 'all'
@@ -392,15 +395,9 @@ export default function HelpNow() {
               </div>
 
               {/* Step Content */}
-              <AnimatePresence mode="wait">
+              <div className="min-h-[200px]">
                 {checkoutStep === 1 && (
-                  <motion.div
-                    key="step1"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    className="space-y-4"
-                  >
+                  <div className="space-y-4">
                     <Select
                       label={t('helpNow.checkout.city')}
                       options={cityOptions}
@@ -408,17 +405,11 @@ export default function HelpNow() {
                       onChange={(e) => setCheckoutForm(prev => ({ ...prev, city: e.target.value }))}
                       placeholder={t('helpNow.checkout.city')}
                     />
-                  </motion.div>
+                  </div>
                 )}
 
                 {checkoutStep === 2 && (
-                  <motion.div
-                    key="step2"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    className="space-y-4"
-                  >
+                  <div className="space-y-4">
                     <Input
                       label={t('helpNow.checkout.name')}
                       value={checkoutForm.name}
@@ -434,41 +425,97 @@ export default function HelpNow() {
                       value={checkoutForm.address}
                       onChange={(e) => setCheckoutForm(prev => ({ ...prev, address: e.target.value }))}
                     />
-                  </motion.div>
+                  </div>
                 )}
 
                 {checkoutStep === 3 && (
-                  <motion.div
-                    key="step3"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    className="space-y-4"
-                  >
+                  <div className="space-y-4">
                     <p className="font-medium mb-2">{t('helpNow.checkout.payment')}</p>
                     <div className="space-y-2">
-                      {['cash', 'card'].map((method) => (
-                        <label
-                          key={method}
-                          className={cn(
-                            'flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all',
-                            checkoutForm.paymentMethod === method
-                              ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                              : 'border-border hover:border-primary-300'
-                          )}
-                        >
-                          <input
-                            type="radio"
-                            name="payment"
-                            value={method}
-                            checked={checkoutForm.paymentMethod === method}
-                            onChange={(e) => setCheckoutForm(prev => ({ ...prev, paymentMethod: e.target.value }))}
-                            className="w-4 h-4 text-primary-500"
-                          />
-                          <span>{t(`helpNow.checkout.${method}`)}</span>
-                        </label>
-                      ))}
+                      <label
+                        className={cn(
+                          'flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all',
+                          checkoutForm.paymentMethod === 'cash'
+                            ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                            : 'border-border hover:border-primary-300'
+                        )}
+                      >
+                        <input
+                          type="radio"
+                          name="payment"
+                          value="cash"
+                          checked={checkoutForm.paymentMethod === 'cash'}
+                          onChange={(e) => setCheckoutForm(prev => ({ ...prev, paymentMethod: e.target.value }))}
+                          className="w-4 h-4 text-primary-500"
+                        />
+                        <Banknote className="w-5 h-5 text-green-600" />
+                        <span>{t('helpNow.checkout.cash')}</span>
+                      </label>
+
+                      <label
+                        className={cn(
+                          'flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all',
+                          checkoutForm.paymentMethod === 'card'
+                            ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                            : 'border-border hover:border-primary-300'
+                        )}
+                      >
+                        <input
+                          type="radio"
+                          name="payment"
+                          value="card"
+                          checked={checkoutForm.paymentMethod === 'card'}
+                          onChange={(e) => setCheckoutForm(prev => ({ ...prev, paymentMethod: e.target.value }))}
+                          className="w-4 h-4 text-primary-500"
+                        />
+                        <CreditCard className="w-5 h-5 text-blue-600" />
+                        <span>{t('helpNow.checkout.card')}</span>
+                      </label>
                     </div>
+
+                    {/* Card Details Form */}
+                    {checkoutForm.paymentMethod === 'card' && (
+                      <div className="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 space-y-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <CreditCard className="w-5 h-5 text-primary-500" />
+                          <span className="font-medium">{t('helpNow.checkout.cardDetails')}</span>
+                        </div>
+                        <Input
+                          label={t('helpNow.checkout.cardNumber')}
+                          value={checkoutForm.cardNumber}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, '').slice(0, 16)
+                            const formatted = value.replace(/(\d{4})(?=\d)/g, '$1 ')
+                            setCheckoutForm(prev => ({ ...prev, cardNumber: formatted }))
+                          }}
+                          placeholder="1234 5678 9012 3456"
+                        />
+                        <div className="grid grid-cols-2 gap-4">
+                          <Input
+                            label={t('helpNow.checkout.cardExpiry')}
+                            value={checkoutForm.cardExpiry}
+                            onChange={(e) => {
+                              let value = e.target.value.replace(/\D/g, '').slice(0, 4)
+                              if (value.length >= 2) {
+                                value = value.slice(0, 2) + '/' + value.slice(2)
+                              }
+                              setCheckoutForm(prev => ({ ...prev, cardExpiry: value }))
+                            }}
+                            placeholder="MM/YY"
+                          />
+                          <Input
+                            label="CVC"
+                            value={checkoutForm.cardCvc}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, '').slice(0, 3)
+                              setCheckoutForm(prev => ({ ...prev, cardCvc: value }))
+                            }}
+                            placeholder="123"
+                            type="password"
+                          />
+                        </div>
+                      </div>
+                    )}
 
                     <div className="mt-6 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50">
                       <p className="font-medium mb-2">{t('helpNow.cart.total')}</p>
@@ -476,9 +523,9 @@ export default function HelpNow() {
                         {formatPrice(cartTotal)}
                       </p>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
-              </AnimatePresence>
+              </div>
 
               <div className="flex gap-3 mt-6">
                 {checkoutStep > 1 && (
