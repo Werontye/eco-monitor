@@ -144,7 +144,16 @@
       "cardExpiry": "Expiry Date",
       "confirm": "Confirm Order",
       "success": "Order Confirmed!",
-      "orderNumber": "Order Number"
+      "orderNumber": "Order Number",
+      "errors": {
+        "cityRequired": "Please select a delivery city",
+        "nameRequired": "Please enter your full name",
+        "phoneRequired": "Please enter your phone number",
+        "addressRequired": "Please enter your delivery address",
+        "cardNumberInvalid": "Please enter a valid 16-digit card number",
+        "cardExpiryInvalid": "Please enter a valid expiry date (MM/YY)",
+        "cardCvcInvalid": "Please enter a valid 3-digit CVC code"
+      }
     }
   },
   "products": {

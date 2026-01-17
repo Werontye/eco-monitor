@@ -144,7 +144,16 @@
       "cardExpiry": "Amal qilish muddati",
       "confirm": "Buyurtmani tasdiqlash",
       "success": "Buyurtma tasdiqlandi!",
-      "orderNumber": "Buyurtma raqami"
+      "orderNumber": "Buyurtma raqami",
+      "errors": {
+        "cityRequired": "Iltimos, yetkazib berish shahrini tanlang",
+        "nameRequired": "Iltimos, to'liq ismingizni kiriting",
+        "phoneRequired": "Iltimos, telefon raqamingizni kiriting",
+        "addressRequired": "Iltimos, yetkazib berish manzilini kiriting",
+        "cardNumberInvalid": "Iltimos, to'g'ri 16 xonali karta raqamini kiriting",
+        "cardExpiryInvalid": "Iltimos, to'g'ri amal qilish muddatini kiriting (OO/YY)",
+        "cardCvcInvalid": "Iltimos, to'g'ri 3 xonali CVC kodini kiriting"
+      }
     }
   },
   "products": {

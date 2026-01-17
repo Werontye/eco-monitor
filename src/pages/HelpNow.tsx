@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingCart, Plus, Minus, Trash2, CheckCircle, Leaf, Droplets, Package, Shell, CreditCard, Banknote } from 'lucide-react'
+import { ShoppingCart, Plus, Minus, Trash2, CheckCircle, Leaf, Droplets, Package, Shell, CreditCard, Banknote, AlertCircle } from 'lucide-react'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
@@ -44,6 +44,7 @@ export default function HelpNow() {
     cardExpiry: '',
     cardCvc: '',
   })
+  const [validationError, setValidationError] = useState<string | null>(null)
 
   const filteredProducts = activeCategory === 'all'
     ? products
@@ -88,12 +89,70 @@ export default function HelpNow() {
     return new Intl.NumberFormat('uz-UZ').format(price) + ' UZS'
   }
 
+  const validateStep = (): boolean => {
+    setValidationError(null)
+
+    if (checkoutStep === 1) {
+      if (!checkoutForm.city) {
+        setValidationError(t('helpNow.checkout.errors.cityRequired'))
+        return false
+      }
+    }
+
+    if (checkoutStep === 2) {
+      if (!checkoutForm.name.trim()) {
+        setValidationError(t('helpNow.checkout.errors.nameRequired'))
+        return false
+      }
+      if (!checkoutForm.phone.trim()) {
+        setValidationError(t('helpNow.checkout.errors.phoneRequired'))
+        return false
+      }
+      if (!checkoutForm.address.trim()) {
+        setValidationError(t('helpNow.checkout.errors.addressRequired'))
+        return false
+      }
+    }
+
+    if (checkoutStep === 3 && checkoutForm.paymentMethod === 'card') {
+      const cardNum = checkoutForm.cardNumber.replace(/\s/g, '')
+      if (cardNum.length < 16) {
+        setValidationError(t('helpNow.checkout.errors.cardNumberInvalid'))
+        return false
+      }
+      if (checkoutForm.cardExpiry.length < 5) {
+        setValidationError(t('helpNow.checkout.errors.cardExpiryInvalid'))
+        return false
+      }
+      if (checkoutForm.cardCvc.length < 3) {
+        setValidationError(t('helpNow.checkout.errors.cardCvcInvalid'))
+        return false
+      }
+    }
+
+    return true
+  }
+
   const handleCheckout = () => {
+    if (!validateStep()) {
+      return
+    }
+
     if (checkoutStep < 3) {
       setCheckoutStep(prev => prev + 1)
     } else {
       setOrderComplete(true)
       setCart([])
+      setCheckoutForm({
+        city: '',
+        name: '',
+        phone: '',
+        address: '',
+        paymentMethod: 'cash',
+        cardNumber: '',
+        cardExpiry: '',
+        cardCvc: '',
+      })
     }
   }
 
@@ -394,6 +453,14 @@ export default function HelpNow() {
                 ))}
               </div>
 
+              {/* Validation Error */}
+              {validationError && (
+                <div className="flex items-center gap-2 p-3 mb-4 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400">
+                  <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                  <span className="text-sm">{validationError}</span>
+                </div>
+              )}
+
               {/* Step Content */}
               <div className="min-h-[200px]">
                 {checkoutStep === 1 && (
@@ -402,7 +469,10 @@ export default function HelpNow() {
                       label={t('helpNow.checkout.city')}
                       options={cityOptions}
                       value={checkoutForm.city}
-                      onChange={(e) => setCheckoutForm(prev => ({ ...prev, city: e.target.value }))}
+                      onChange={(e) => {
+                        setValidationError(null)
+                        setCheckoutForm(prev => ({ ...prev, city: e.target.value }))
+                      }}
                       placeholder={t('helpNow.checkout.city')}
                     />
                   </div>
@@ -413,17 +483,26 @@ export default function HelpNow() {
                     <Input
                       label={t('helpNow.checkout.name')}
                       value={checkoutForm.name}
-                      onChange={(e) => setCheckoutForm(prev => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) => {
+                        setValidationError(null)
+                        setCheckoutForm(prev => ({ ...prev, name: e.target.value }))
+                      }}
                     />
                     <Input
                       label={t('helpNow.checkout.phone')}
                       value={checkoutForm.phone}
-                      onChange={(e) => setCheckoutForm(prev => ({ ...prev, phone: e.target.value }))}
+                      onChange={(e) => {
+                        setValidationError(null)
+                        setCheckoutForm(prev => ({ ...prev, phone: e.target.value }))
+                      }}
                     />
                     <Input
                       label={t('helpNow.checkout.address')}
                       value={checkoutForm.address}
-                      onChange={(e) => setCheckoutForm(prev => ({ ...prev, address: e.target.value }))}
+                      onChange={(e) => {
+                        setValidationError(null)
+                        setCheckoutForm(prev => ({ ...prev, address: e.target.value }))
+                      }}
                     />
                   </div>
                 )}
@@ -484,6 +563,7 @@ export default function HelpNow() {
                           label={t('helpNow.checkout.cardNumber')}
                           value={checkoutForm.cardNumber}
                           onChange={(e) => {
+                            setValidationError(null)
                             const value = e.target.value.replace(/\D/g, '').slice(0, 16)
                             const formatted = value.replace(/(\d{4})(?=\d)/g, '$1 ')
                             setCheckoutForm(prev => ({ ...prev, cardNumber: formatted }))
@@ -495,6 +575,7 @@ export default function HelpNow() {
                             label={t('helpNow.checkout.cardExpiry')}
                             value={checkoutForm.cardExpiry}
                             onChange={(e) => {
+                              setValidationError(null)
                               let value = e.target.value.replace(/\D/g, '').slice(0, 4)
                               if (value.length >= 2) {
                                 value = value.slice(0, 2) + '/' + value.slice(2)
@@ -507,6 +588,7 @@ export default function HelpNow() {
                             label="CVC"
                             value={checkoutForm.cardCvc}
                             onChange={(e) => {
+                              setValidationError(null)
                               const value = e.target.value.replace(/\D/g, '').slice(0, 3)
                               setCheckoutForm(prev => ({ ...prev, cardCvc: value }))
                             }}
@@ -529,7 +611,10 @@ export default function HelpNow() {
 
               <div className="flex gap-3 mt-6">
                 {checkoutStep > 1 && (
-                  <Button variant="secondary" onClick={() => setCheckoutStep(prev => prev - 1)}>
+                  <Button variant="secondary" onClick={() => {
+                    setValidationError(null)
+                    setCheckoutStep(prev => prev - 1)
+                  }}>
                     {t('common.back')}
                   </Button>
                 )}
