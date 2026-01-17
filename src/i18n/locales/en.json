@@ -1,0 +1,253 @@
+{
+  "nav": {
+    "home": "Dashboard",
+    "monitoring": "Monitoring",
+    "analysis": "Data & Analysis",
+    "ai": "AI Advisory",
+    "help": "Help Now",
+    "about": "About"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "lastUpdated": "Last Updated",
+    "viewAll": "View All",
+    "learnMore": "Learn More",
+    "orderNow": "Order Now",
+    "addToCart": "Add to Cart",
+    "checkout": "Checkout",
+    "submit": "Submit",
+    "send": "Send",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "outOfStock": "Out of Stock"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "toggle": "Toggle theme"
+  },
+  "home": {
+    "title": "Environmental Monitoring",
+    "subtitle": "Real-time data for a healthier Uzbekistan",
+    "liveData": "Live Data",
+    "overview": "Overview",
+    "airQuality": "Air Quality",
+    "waterQuality": "Water Quality",
+    "soilQuality": "Soil Quality",
+    "uvIndex": "UV Index",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "wind": "Wind Speed",
+    "precipitation": "Precipitation",
+    "trend24h": "24h Trend",
+    "selectCity": "Select City"
+  },
+  "status": {
+    "good": "Good",
+    "moderate": "Moderate",
+    "poor": "Poor",
+    "alert": "Alert",
+    "excellent": "Excellent",
+    "unhealthy": "Unhealthy",
+    "hazardous": "Hazardous"
+  },
+  "table": {
+    "city": "City",
+    "parameter": "Parameter",
+    "currentValue": "Current Value",
+    "delta24h": "24h Delta",
+    "status": "Status",
+    "lastUpdated": "Last Updated",
+    "action": "Action"
+  },
+  "monitoring": {
+    "title": "Detailed Monitoring",
+    "air": "Air Quality",
+    "water": "Water Quality",
+    "soil": "Soil Quality",
+    "uv": "UV Radiation",
+    "weather": "Weather",
+    "timeRange": "Time Range",
+    "24h": "24 Hours",
+    "7d": "7 Days",
+    "30d": "30 Days",
+    "compare": "Compare Cities",
+    "sensors": "Sensor Locations"
+  },
+  "analysis": {
+    "title": "Data & Analysis",
+    "charts": "Interactive Charts",
+    "statistics": "Statistics",
+    "average": "Average",
+    "median": "Median",
+    "peak": "Peak",
+    "trend": "Trend",
+    "correlation": "Correlation Analysis",
+    "exportCSV": "Export CSV",
+    "exportJSON": "Export JSON"
+  },
+  "ai": {
+    "title": "AI Environmental Advisor",
+    "subtitle": "Get personalized environmental insights",
+    "placeholder": "Ask about environmental conditions...",
+    "suggestions": {
+      "air": "How is the air quality in Tashkent today?",
+      "water": "What can I do to improve water quality?",
+      "plants": "Which plants help monitor air pollution?",
+      "health": "Is it safe to exercise outdoors today?"
+    },
+    "thinking": "Thinking...",
+    "disclaimer": "AI recommendations are for informational purposes only"
+  },
+  "helpNow": {
+    "title": "Help Now",
+    "subtitle": "Order eco-friendly monitoring plants and kits",
+    "categories": {
+      "all": "All Products",
+      "airPlants": "Air Quality Plants",
+      "waterPlants": "Water Quality Plants",
+      "kits": "Monitoring Kits"
+    },
+    "product": {
+      "monitors": "Monitors",
+      "difficulty": "Care Difficulty",
+      "easy": "Easy",
+      "medium": "Medium",
+      "advanced": "Advanced"
+    },
+    "cart": {
+      "title": "Shopping Cart",
+      "empty": "Your cart is empty",
+      "total": "Total",
+      "items": "items"
+    },
+    "checkout": {
+      "title": "Checkout",
+      "city": "Select City",
+      "delivery": "Delivery Information",
+      "name": "Full Name",
+      "phone": "Phone Number",
+      "address": "Delivery Address",
+      "payment": "Payment Method",
+      "cash": "Cash on Delivery",
+      "card": "Credit Card",
+      "confirm": "Confirm Order",
+      "success": "Order Confirmed!",
+      "orderNumber": "Order Number"
+    }
+  },
+  "products": {
+    "peaceLily": {
+      "name": "Peace Lily (Spathiphyllum)",
+      "description": "Excellent air purifier that removes formaldehyde, benzene, and carbon monoxide. Easy to care for and blooms beautiful white flowers."
+    },
+    "spiderPlant": {
+      "name": "Spider Plant (Chlorophytum)",
+      "description": "NASA-approved air purifier. Removes formaldehyde and xylene. Produces baby plants that can be easily propagated."
+    },
+    "snakePlant": {
+      "name": "Snake Plant (Sansevieria)",
+      "description": "One of the best air purifiers. Converts CO2 to oxygen at night. Very drought tolerant and low maintenance."
+    },
+    "bostonFern": {
+      "name": "Boston Fern (Nephrolepis)",
+      "description": "Natural humidifier and air purifier. Excellent for removing formaldehyde and adding moisture to dry air."
+    },
+    "waterHyacinth": {
+      "name": "Water Hyacinth (Eichhornia)",
+      "description": "Aquatic plant that absorbs heavy metals and nutrients from water. Effective for water purification."
+    },
+    "duckweed": {
+      "name": "Duckweed (Lemna)",
+      "description": "Tiny floating plant that rapidly absorbs nutrients and indicates water quality through growth patterns."
+    },
+    "hornwort": {
+      "name": "Hornwort (Ceratophyllum)",
+      "description": "Fast-growing aquatic plant that absorbs excess nutrients and produces oxygen. Excellent for maintaining water clarity."
+    },
+    "najas": {
+      "name": "Najas (Najas guadalupensis)",
+      "description": "Submerged aquatic plant that helps control algae and absorbs nitrates. Creates natural filtration in water bodies."
+    },
+    "ramshornSnails": {
+      "name": "Ramshorn Snails (Planorbidae)",
+      "description": "Beneficial aquatic mollusks that consume algae and organic waste. Natural indicators of water quality and ecosystem health."
+    },
+    "basicKit": {
+      "name": "Basic Air Quality Kit",
+      "description": "Starter kit with digital air quality monitor and 2 air-purifying plants. Perfect for beginners."
+    },
+    "advancedKit": {
+      "name": "Advanced Environmental Kit",
+      "description": "Complete monitoring solution with digital sensors for air and water, plus 4 monitoring plants."
+    },
+    "proKit": {
+      "name": "Professional Monitoring Kit",
+      "description": "Industrial-grade sensors with mobile app connectivity. Real-time data logging and analysis."
+    },
+    "monitors": {
+      "formaldehyde": "Formaldehyde",
+      "benzene": "Benzene",
+      "co": "CO",
+      "co2": "CO2",
+      "xylene": "Xylene",
+      "humidity": "Humidity",
+      "heavyMetals": "Heavy Metals",
+      "nitrogen": "Nitrogen",
+      "phosphorus": "Phosphorus",
+      "ph": "pH Level",
+      "ammonia": "Ammonia",
+      "nitrates": "Nitrates",
+      "oxygenLevel": "Oxygen Level",
+      "waterClarity": "Water Clarity",
+      "algae": "Algae",
+      "organicWaste": "Organic Waste",
+      "waterQuality": "Water Quality",
+      "pm25": "PM2.5",
+      "voc": "VOC",
+      "waterPh": "Water pH",
+      "tds": "TDS",
+      "fullSpectrumAir": "Full Spectrum Air",
+      "waterAnalysis": "Water Analysis",
+      "soilTesting": "Soil Testing"
+    }
+  },
+  "about": {
+    "title": "About EcoMonitor",
+    "mission": "Our Mission",
+    "missionText": "To provide accessible, real-time environmental data to residents of Uzbekistan, empowering informed decisions for healthier living.",
+    "dataSources": "Data Sources",
+    "methodology": "Methodology",
+    "privacy": "Privacy Policy",
+    "contact": "Contact Us",
+    "partners": "Our Partners"
+  },
+  "cities": {
+    "tashkent": "Tashkent",
+    "samarkand": "Samarkand",
+    "bukhara": "Bukhara",
+    "namangan": "Namangan",
+    "andijan": "Andijan",
+    "fergana": "Fergana",
+    "nukus": "Nukus",
+    "urgench": "Urgench",
+    "kokand": "Kokand",
+    "navoi": "Navoi",
+    "jizzakh": "Jizzakh",
+    "termez": "Termez",
+    "qarshi": "Qarshi",
+    "margilan": "Margilan"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "madeWith": "Made with care for Uzbekistan"
+  }
+}

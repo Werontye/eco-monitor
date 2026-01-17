@@ -1,0 +1,253 @@
+{
+  "nav": {
+    "home": "Bosh sahifa",
+    "monitoring": "Monitoring",
+    "analysis": "Ma'lumotlar va tahlil",
+    "ai": "AI maslahatchi",
+    "help": "Yordam bering",
+    "about": "Biz haqimizda"
+  },
+  "common": {
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik",
+    "retry": "Qayta urinish",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "search": "Qidirish",
+    "filter": "Filtr",
+    "export": "Eksport",
+    "lastUpdated": "Oxirgi yangilanish",
+    "viewAll": "Hammasini ko'rish",
+    "learnMore": "Batafsil",
+    "orderNow": "Buyurtma qilish",
+    "addToCart": "Savatga qo'shish",
+    "checkout": "Rasmiylashtirish",
+    "submit": "Yuborish",
+    "send": "Jo'natish",
+    "close": "Yopish",
+    "back": "Orqaga",
+    "next": "Keyingi",
+    "outOfStock": "Mavjud emas"
+  },
+  "theme": {
+    "light": "Yorug'",
+    "dark": "Qorong'u",
+    "toggle": "Mavzuni almashtirish"
+  },
+  "home": {
+    "title": "Ekologik monitoring",
+    "subtitle": "Sog'lom O'zbekiston uchun real vaqtdagi ma'lumotlar",
+    "liveData": "Jonli ma'lumotlar",
+    "overview": "Umumiy ko'rinish",
+    "airQuality": "Havo sifati",
+    "waterQuality": "Suv sifati",
+    "soilQuality": "Tuproq sifati",
+    "uvIndex": "UV indeksi",
+    "temperature": "Harorat",
+    "humidity": "Namlik",
+    "wind": "Shamol tezligi",
+    "precipitation": "Yog'ingarchilik",
+    "trend24h": "24 soatlik trend",
+    "selectCity": "Shaharni tanlang"
+  },
+  "status": {
+    "good": "Yaxshi",
+    "moderate": "O'rtacha",
+    "poor": "Yomon",
+    "alert": "Xavfli",
+    "excellent": "A'lo",
+    "unhealthy": "Zararli",
+    "hazardous": "Juda xavfli"
+  },
+  "table": {
+    "city": "Shahar",
+    "parameter": "Parametr",
+    "currentValue": "Joriy qiymat",
+    "delta24h": "24 soatlik o'zgarish",
+    "status": "Holat",
+    "lastUpdated": "Yangilangan",
+    "action": "Amal"
+  },
+  "monitoring": {
+    "title": "Batafsil monitoring",
+    "air": "Havo sifati",
+    "water": "Suv sifati",
+    "soil": "Tuproq sifati",
+    "uv": "UV nurlanish",
+    "weather": "Ob-havo",
+    "timeRange": "Vaqt oralig'i",
+    "24h": "24 soat",
+    "7d": "7 kun",
+    "30d": "30 kun",
+    "compare": "Shaharlarni solishtirish",
+    "sensors": "Sensorlar joylashuvi"
+  },
+  "analysis": {
+    "title": "Ma'lumotlar va tahlil",
+    "charts": "Interaktiv grafiklar",
+    "statistics": "Statistika",
+    "average": "O'rtacha",
+    "median": "Median",
+    "peak": "Eng yuqori",
+    "trend": "Trend",
+    "correlation": "Korrelyatsiya tahlili",
+    "exportCSV": "CSV eksport",
+    "exportJSON": "JSON eksport"
+  },
+  "ai": {
+    "title": "AI ekologik maslahatchi",
+    "subtitle": "Shaxsiy ekologik tavsiyalar oling",
+    "placeholder": "Atrof-muhit haqida so'rang...",
+    "suggestions": {
+      "air": "Toshkentda bugun havo sifati qanday?",
+      "water": "Suv sifatini qanday yaxshilash mumkin?",
+      "plants": "Qaysi o'simliklar ifloslanishni kuzatishga yordam beradi?",
+      "health": "Bugun tashqarida sport qilish xavfsizmi?"
+    },
+    "thinking": "Tahlil qilmoqda...",
+    "disclaimer": "AI tavsiyalari faqat ma'lumot uchun"
+  },
+  "helpNow": {
+    "title": "Yordam bering",
+    "subtitle": "Eko-o'simliklar va monitoring to'plamlarini buyurtma qiling",
+    "categories": {
+      "all": "Barcha mahsulotlar",
+      "airPlants": "Havo sifati o'simliklari",
+      "waterPlants": "Suv o'simliklari",
+      "kits": "Monitoring to'plamlari"
+    },
+    "product": {
+      "monitors": "Kuzatadi",
+      "difficulty": "Parvarish qiyinligi",
+      "easy": "Oson",
+      "medium": "O'rtacha",
+      "advanced": "Qiyin"
+    },
+    "cart": {
+      "title": "Savat",
+      "empty": "Savatingiz bo'sh",
+      "total": "Jami",
+      "items": "mahsulot"
+    },
+    "checkout": {
+      "title": "Buyurtmani rasmiylashtirish",
+      "city": "Shaharni tanlang",
+      "delivery": "Yetkazib berish ma'lumotlari",
+      "name": "To'liq ism",
+      "phone": "Telefon raqami",
+      "address": "Yetkazib berish manzili",
+      "payment": "To'lov usuli",
+      "cash": "Naqd pul",
+      "card": "Bank kartasi",
+      "confirm": "Buyurtmani tasdiqlash",
+      "success": "Buyurtma tasdiqlandi!",
+      "orderNumber": "Buyurtma raqami"
+    }
+  },
+  "products": {
+    "peaceLily": {
+      "name": "Spatifilum (Peace Lily)",
+      "description": "Formaldegid, benzol va uglerod oksidini yo'qotadigan ajoyib havo tozalagich. Parvarishlash oson va chiroyli oq gullar ochadi."
+    },
+    "spiderPlant": {
+      "name": "Xlorofitum (Spider Plant)",
+      "description": "NASA tomonidan tasdiqlangan havo tozalagich. Formaldegid va ksilolni yo'qotadi. Oson ko'paytiriladi."
+    },
+    "snakePlant": {
+      "name": "Sansevieriya (Snake Plant)",
+      "description": "Eng yaxshi havo tozalagichlardan biri. Kechasi CO2ni kislorodga aylantiradi. Qurg'oqchilikka chidamli va kam parvarish talab qiladi."
+    },
+    "bostonFern": {
+      "name": "Boston Paporotnik (Nephrolepis)",
+      "description": "Tabiiy namlagich va havo tozalagich. Formaldegidni yo'qotish va quruq havoni namlashda a'lo."
+    },
+    "waterHyacinth": {
+      "name": "Suv Giatsinti (Eichhornia)",
+      "description": "Og'ir metallar va oziq moddalarni suvdan shimib oladigan suv o'simligi. Suvni tozalash uchun samarali."
+    },
+    "duckweed": {
+      "name": "Ryaska (Lemna)",
+      "description": "Oziq moddalarni tez shimib oladigan kichik suzuvchi o'simlik. O'sish xususiyatlari orqali suv sifatini ko'rsatadi."
+    },
+    "hornwort": {
+      "name": "Rogolistnik (Ceratophyllum)",
+      "description": "Ortiqcha oziq moddalarni shimib oladigan va kislorod ishlab chiqaradigan tez o'suvchi suv o'simligi. Suv tiniqligini saqlashda a'lo."
+    },
+    "najas": {
+      "name": "Nayas (Najas guadalupensis)",
+      "description": "Suv o'tlarini nazorat qilishga va nitratlarni shimib olishga yordam beradigan cho'ktirilgan suv o'simligi. Suv havzalarida tabiiy filtrlash yaratadi."
+    },
+    "ramshornSnails": {
+      "name": "Katushka Molluskalar (Planorbidae)",
+      "description": "Suv o'tlarini va organik chiqindilarni iste'mol qiladigan foydali suv mollusalari. Suv sifati va ekotizim salomatligining tabiiy ko'rsatkichlari."
+    },
+    "basicKit": {
+      "name": "Asosiy Havo Sifati To'plami",
+      "description": "Raqamli havo sifati monitori va 2 ta havo tozalagich o'simlik bilan boshlang'ich to'plam. Yangi boshlovchilar uchun ideal."
+    },
+    "advancedKit": {
+      "name": "Kengaytirilgan Ekologik To'plam",
+      "description": "Havo va suv uchun raqamli sensorlar, shuningdek 4 ta monitoring o'simligi bilan to'liq yechim."
+    },
+    "proKit": {
+      "name": "Professional Monitoring To'plami",
+      "description": "Mobil ilova bilan ulanishga ega sanoat darajasidagi sensorlar. Real vaqtda ma'lumotlarni yozish va tahlil qilish."
+    },
+    "monitors": {
+      "formaldehyde": "Formaldegid",
+      "benzene": "Benzol",
+      "co": "CO",
+      "co2": "CO2",
+      "xylene": "Ksilol",
+      "humidity": "Namlik",
+      "heavyMetals": "Og'ir metallar",
+      "nitrogen": "Azot",
+      "phosphorus": "Fosfor",
+      "ph": "pH darajasi",
+      "ammonia": "Ammiak",
+      "nitrates": "Nitratlar",
+      "oxygenLevel": "Kislorod darajasi",
+      "waterClarity": "Suv tiqligi",
+      "algae": "Suv o'tlari",
+      "organicWaste": "Organik chiqindilar",
+      "waterQuality": "Suv sifati",
+      "pm25": "PM2.5",
+      "voc": "UOB",
+      "waterPh": "Suv pH",
+      "tds": "TDS",
+      "fullSpectrumAir": "To'liq spektr havo",
+      "waterAnalysis": "Suv tahlili",
+      "soilTesting": "Tuproq sinovi"
+    }
+  },
+  "about": {
+    "title": "EcoMonitor haqida",
+    "mission": "Bizning maqsadimiz",
+    "missionText": "O'zbekiston aholisiga real vaqtda atrof-muhit ma'lumotlarini taqdim etish va sog'lom hayot uchun ongli qarorlar qabul qilishga yordam berish.",
+    "dataSources": "Ma'lumot manbalari",
+    "methodology": "Metodologiya",
+    "privacy": "Maxfiylik siyosati",
+    "contact": "Biz bilan bog'lanish",
+    "partners": "Hamkorlarimiz"
+  },
+  "cities": {
+    "tashkent": "Toshkent",
+    "samarkand": "Samarqand",
+    "bukhara": "Buxoro",
+    "namangan": "Namangan",
+    "andijan": "Andijon",
+    "fergana": "Farg'ona",
+    "nukus": "Nukus",
+    "urgench": "Urganch",
+    "kokand": "Qo'qon",
+    "navoi": "Navoiy",
+    "jizzakh": "Jizzax",
+    "termez": "Termiz",
+    "qarshi": "Qarshi",
+    "margilan": "Marg'ilon"
+  },
+  "footer": {
+    "rights": "Barcha huquqlar himoyalangan",
+    "madeWith": "O'zbekiston uchun g'amxo'rlik bilan yaratilgan"
+  }
+}
