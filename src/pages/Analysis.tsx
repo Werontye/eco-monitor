@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import { BarChart3, LineChart, PieChart, Download, TrendingUp, Calculator } from 'lucide-react'
 import Card, { CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/Tabs'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import Select from '@/components/ui/Select'
 import Button from '@/components/ui/Button'
 import EnvironmentChart from '@/components/charts/EnvironmentChart'
-import { generateChartData, generateSensorData } from '@/data/mockData'
-import { cities, parameterLabels, parameterUnits } from '@/data/cities'
-import { EnvironmentParameter, SensorData } from '@/types'
+import { generateChartData } from '@/data/mockData'
+import { cities, parameterUnits } from '@/data/cities'
+import { EnvironmentParameter } from '@/types'
 import { cn } from '@/lib/utils'
 
 const parameters: { value: EnvironmentParameter; labelKey: string }[] = [
@@ -27,11 +27,6 @@ export default function Analysis() {
   const [selectedParameter, setSelectedParameter] = useState<EnvironmentParameter>('aqi')
   const [timeRange, setTimeRange] = useState<'24h' | '7d' | '30d'>('7d')
   const [chartType, setChartType] = useState<'line' | 'area' | 'bar'>('area')
-  const [sensorData, setSensorData] = useState<SensorData[]>([])
-
-  useEffect(() => {
-    setSensorData(generateSensorData())
-  }, [])
 
   const cityOptions = cities.map(city => ({
     value: city.id,
@@ -91,12 +86,11 @@ export default function Analysis() {
     }
   }
 
-  const StatCard = ({ label, value, unit, icon: Icon, trend }: {
+  const StatCard = ({ label, value, unit, icon: Icon }: {
     label: string
     value: number
     unit?: string
     icon: React.ComponentType<{ className?: string }>
-    trend?: 'up' | 'down' | 'neutral'
   }) => (
     <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <div className="flex items-center gap-2 mb-2">
@@ -215,7 +209,6 @@ export default function Analysis() {
             label={t('analysis.trend')}
             value={stats.trend}
             icon={TrendingUp}
-            trend={stats.trend > 0 ? 'up' : stats.trend < 0 ? 'down' : 'neutral'}
           />
         </motion.div>
 

@@ -73,7 +73,7 @@ export default function Home() {
             transition={{ duration: 0.5 }}
             className="text-center mb-12"
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 pb-1 bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent">
               {t('home.title')}
             </h1>
             <p className="text-xl text-muted max-w-2xl mx-auto">{t('home.subtitle')}</p>

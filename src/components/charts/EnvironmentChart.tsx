@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import {
   LineChart,
   Line,
@@ -38,7 +37,6 @@ export default function EnvironmentChart({
   animate = true,
 }: EnvironmentChartProps) {
   const { theme } = useTheme()
-  const { t } = useTranslation()
 
   const axisColor = theme === 'dark' ? '#64748b' : '#94a3b8'
   const gridColor = theme === 'dark' ? '#334155' : '#e2e8f0'

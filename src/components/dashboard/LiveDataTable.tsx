@@ -5,7 +5,7 @@ import { Search, TrendingUp, TrendingDown, Minus, ExternalLink, ArrowUpDown } fr
 import Badge from '@/components/ui/Badge'
 import Input from '@/components/ui/Input'
 import { cn } from '@/lib/utils'
-import { SensorData, Status } from '@/types'
+import { SensorData } from '@/types'
 
 interface LiveDataTableProps {
   data: SensorData[]

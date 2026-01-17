@@ -96,7 +96,7 @@ export default function UzbekistanMap({ sensorData, selectedCity, onCitySelect }
   const uzbekistanCenter: [number, number] = [41.3775, 64.5853]
 
   return (
-    <div className="relative w-full h-[400px] rounded-2xl overflow-hidden">
+    <div className="relative w-full h-[400px] rounded-2xl overflow-hidden z-0">
       {/* Add custom CSS for pulse animation */}
       <style>{`
         @keyframes pulse-ring {

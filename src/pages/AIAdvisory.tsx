@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Send, Bot, User, Sparkles, Lightbulb, Wind, Droplets, Leaf, AlertTriangle } from 'lucide-react'
-import Card, { CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
+import { Send, Bot, User, Sparkles, Wind, Droplets, Leaf, AlertTriangle } from 'lucide-react'
+import Card, { CardContent } from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 import { ChatMessage } from '@/types'
@@ -91,8 +91,13 @@ export default function AIAdvisory() {
   const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
+  const chatContainerRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    // Scroll only within the chat container, not the whole page
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+    }
   }, [messages])
 
   const handleSendMessage = async (content: string) => {
@@ -177,7 +182,7 @@ Is there something specific about air quality, water quality, or health recommen
           <Card className="mb-4">
             <CardContent className="p-0">
               {/* Messages */}
-              <div className="h-[500px] overflow-y-auto p-6 space-y-4 scrollbar-thin">
+              <div ref={chatContainerRef} className="h-[500px] overflow-y-auto p-6 space-y-4 scrollbar-thin" style={{ overscrollBehavior: 'contain' }}>
                 {messages.length === 0 && (
                   <div className="text-center py-12">
                     <Bot className="w-16 h-16 mx-auto text-muted mb-4" />

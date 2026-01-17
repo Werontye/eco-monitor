@@ -1,17 +1,9 @@
-import { SensorData, Product, EnvironmentParameter, Status } from '@/types'
+import { SensorData, EnvironmentParameter, Status } from '@/types'
 import { cities, parameterThresholds, parameterUnits } from './cities'
 import { generateSparklineData, getStatusFromValue } from '@/lib/utils'
 
 function getRandomValue(min: number, max: number): number {
   return Math.round((Math.random() * (max - min) + min) * 10) / 10
-}
-
-function getRandomStatus(): Status {
-  const rand = Math.random()
-  if (rand < 0.5) return 'good'
-  if (rand < 0.75) return 'moderate'
-  if (rand < 0.9) return 'poor'
-  return 'alert'
 }
 
 export function generateSensorData(): SensorData[] {
@@ -65,130 +57,6 @@ export function generateSensorData(): SensorData[] {
 
   return data
 }
-
-export const products: Product[] = [
-  {
-    id: 'peace-lily',
-    name: 'Peace Lily (Spathiphyllum)',
-    description: 'Excellent air purifier that removes formaldehyde, benzene, and carbon monoxide. Easy to care for and blooms beautiful white flowers.',
-    image: '/images/peace-lily.jpg',
-    price: 45000,
-    category: 'air',
-    monitors: ['Formaldehyde', 'Benzene', 'CO'],
-    difficulty: 'easy',
-    inStock: true,
-  },
-  {
-    id: 'spider-plant',
-    name: 'Spider Plant (Chlorophytum)',
-    description: 'NASA-approved air purifier. Removes formaldehyde and xylene. Produces baby plants that can be easily propagated.',
-    image: '/images/spider-plant.jpg',
-    price: 35000,
-    category: 'air',
-    monitors: ['Formaldehyde', 'Xylene'],
-    difficulty: 'easy',
-    inStock: true,
-  },
-  {
-    id: 'snake-plant',
-    name: 'Snake Plant (Sansevieria)',
-    description: 'One of the best air purifiers. Converts CO2 to oxygen at night. Very drought tolerant and low maintenance.',
-    image: '/images/snake-plant.jpg',
-    price: 55000,
-    category: 'air',
-    monitors: ['CO2', 'Formaldehyde', 'Benzene'],
-    difficulty: 'easy',
-    inStock: true,
-  },
-  {
-    id: 'boston-fern',
-    name: 'Boston Fern (Nephrolepis)',
-    description: 'Natural humidifier and air purifier. Excellent for removing formaldehyde and adding moisture to dry air.',
-    image: '/images/boston-fern.jpg',
-    price: 40000,
-    category: 'air',
-    monitors: ['Formaldehyde', 'Humidity'],
-    difficulty: 'medium',
-    inStock: true,
-  },
-  {
-    id: 'water-hyacinth',
-    name: 'Water Hyacinth (Eichhornia)',
-    description: 'Aquatic plant that absorbs heavy metals and nutrients from water. Effective for water purification.',
-    image: '/images/water-hyacinth.jpg',
-    price: 25000,
-    category: 'water',
-    monitors: ['Heavy Metals', 'Nitrogen', 'Phosphorus'],
-    difficulty: 'easy',
-    inStock: true,
-  },
-  {
-    id: 'duckweed',
-    name: 'Duckweed (Lemna)',
-    description: 'Tiny floating plant that rapidly absorbs nutrients and indicates water quality through growth patterns.',
-    image: '/images/duckweed.jpg',
-    price: 15000,
-    category: 'water',
-    monitors: ['Nitrogen', 'Phosphorus', 'pH'],
-    difficulty: 'easy',
-    inStock: true,
-  },
-  {
-    id: 'water-lettuce',
-    name: 'Water Lettuce (Pistia)',
-    description: 'Floating plant that filters water and provides habitat for beneficial microorganisms.',
-    image: '/images/water-lettuce.jpg',
-    price: 20000,
-    category: 'water',
-    monitors: ['Ammonia', 'Nitrates'],
-    difficulty: 'easy',
-    inStock: true,
-  },
-  {
-    id: 'lotus',
-    name: 'Sacred Lotus (Nelumbo)',
-    description: 'Beautiful aquatic plant with excellent water purification properties. Requires more space and care.',
-    image: '/images/lotus.jpg',
-    price: 75000,
-    category: 'water',
-    monitors: ['Heavy Metals', 'Water Clarity'],
-    difficulty: 'advanced',
-    inStock: false,
-  },
-  {
-    id: 'basic-kit',
-    name: 'Basic Air Quality Kit',
-    description: 'Starter kit with digital air quality monitor and 2 air-purifying plants. Perfect for beginners.',
-    image: '/images/basic-kit.jpg',
-    price: 150000,
-    category: 'kit',
-    monitors: ['PM2.5', 'CO2', 'Humidity'],
-    difficulty: 'easy',
-    inStock: true,
-  },
-  {
-    id: 'advanced-kit',
-    name: 'Advanced Environmental Kit',
-    description: 'Complete monitoring solution with digital sensors for air and water, plus 4 monitoring plants.',
-    image: '/images/advanced-kit.jpg',
-    price: 350000,
-    category: 'kit',
-    monitors: ['PM2.5', 'CO2', 'VOC', 'Water pH', 'TDS'],
-    difficulty: 'medium',
-    inStock: true,
-  },
-  {
-    id: 'pro-kit',
-    name: 'Professional Monitoring Kit',
-    description: 'Industrial-grade sensors with mobile app connectivity. Real-time data logging and analysis.',
-    image: '/images/pro-kit.jpg',
-    price: 750000,
-    category: 'kit',
-    monitors: ['Full Spectrum Air', 'Water Analysis', 'Soil Testing'],
-    difficulty: 'advanced',
-    inStock: true,
-  },
-]
 
 export function generateChartData(parameter: EnvironmentParameter, timeRange: '24h' | '7d' | '30d') {
   const points = timeRange === '24h' ? 24 : timeRange === '7d' ? 7 : 30
