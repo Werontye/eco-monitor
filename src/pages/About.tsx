@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { Target, Database, Shield, Mail, Users, ExternalLink, Send, CheckCircle } from 'lucide-react'
+import { Target, Database, Shield, Mail, Users, Send, CheckCircle } from 'lucide-react'
 import Card, { CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
@@ -111,18 +111,13 @@ export default function About() {
                   { step: 2, titleKey: 'about.steps.processing', descKey: 'about.steps.processingDesc' },
                   { step: 3, titleKey: 'about.steps.analysis', descKey: 'about.steps.analysisDesc' },
                   { step: 4, titleKey: 'about.steps.delivery', descKey: 'about.steps.deliveryDesc' },
-                ].map((item, index) => (
+                ].map((item) => (
                   <div key={item.step} className="text-center">
                     <div className="w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center mx-auto mb-3">
                       <span className="text-lg font-bold text-primary-600 dark:text-primary-400">{item.step}</span>
                     </div>
                     <h4 className="font-medium mb-1">{t(item.titleKey)}</h4>
                     <p className="text-sm text-muted">{t(item.descKey)}</p>
-                    {index < 3 && (
-                      <div className="hidden md:block absolute top-6 -right-3 w-6 text-muted">
-                        <ExternalLink className="w-4 h-4 rotate-90" />
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>

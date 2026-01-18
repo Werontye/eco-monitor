@@ -90,7 +90,6 @@ export default function AIAdvisory() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [inputValue, setInputValue] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [useRealAI, setUseRealAI] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const chatContainerRef = useRef<HTMLDivElement>(null)
@@ -101,13 +100,6 @@ export default function AIAdvisory() {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
     }
   }, [messages])
-
-  // Check if API is available
-  useEffect(() => {
-    api.checkHealth().then(available => {
-      setUseRealAI(available)
-    })
-  }, [])
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return
@@ -126,18 +118,13 @@ export default function AIAdvisory() {
     let responseContent = ''
 
     try {
-      if (useRealAI) {
-        // Use real OpenAI API
-        const response = await api.chat(content, i18n.language)
-        responseContent = response.message
-      } else {
-        // Fallback to mock responses
-        await new Promise(resolve => setTimeout(resolve, 1500))
-        responseContent = getMockResponse(content)
-      }
+      // Always try real API first
+      const response = await api.chat(content, i18n.language)
+      responseContent = response.message
     } catch (error) {
       console.error('AI API error:', error)
       // Fallback to mock on error
+      await new Promise(resolve => setTimeout(resolve, 1000))
       responseContent = getMockResponse(content)
     }
 
