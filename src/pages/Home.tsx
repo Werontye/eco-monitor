@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import { Activity, RefreshCw } from 'lucide-react'
@@ -10,6 +10,7 @@ import Select from '@/components/ui/Select'
 import { generateSensorData } from '@/data/mockData'
 import { parameterLabels, parameterUnits, cities } from '@/data/cities'
 import { SensorData, KPICardData, EnvironmentParameter } from '@/types'
+import { api, WeatherData, AirQualityData } from '@/services/api'
 
 export default function Home() {
   const { t } = useTranslation()
@@ -17,23 +18,75 @@ export default function Home() {
   const [selectedCity, setSelectedCity] = useState<string>('tashkent')
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
   const [isLive, setIsLive] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Function to merge API data with mock data
+  const fetchRealData = useCallback(async () => {
+    try {
+      // Fetch weather and air quality data in parallel
+      const [weatherData, airQualityData] = await Promise.all([
+        api.getAllWeather().catch(() => [] as WeatherData[]),
+        api.getAllAirQuality().catch(() => [] as AirQualityData[])
+      ])
+
+      // Start with mock data as base
+      const mockData = generateSensorData()
+
+      // Update mock data with real values where available
+      const updatedData = mockData.map(item => {
+        // Update weather data
+        const weather = weatherData.find(w => w.cityId === item.cityId)
+        if (weather) {
+          if (item.parameter === 'temperature') {
+            return { ...item, value: weather.temperature }
+          }
+          if (item.parameter === 'humidity') {
+            return { ...item, value: weather.humidity }
+          }
+          if (item.parameter === 'wind') {
+            return { ...item, value: weather.wind }
+          }
+        }
+
+        // Update air quality data
+        const airQuality = airQualityData.find(a => a.cityId === item.cityId)
+        if (airQuality && item.parameter === 'aqi') {
+          return {
+            ...item,
+            value: airQuality.aqi,
+            status: airQuality.status as 'good' | 'moderate' | 'poor' | 'alert'
+          }
+        }
+
+        return item
+      })
+
+      setSensorData(updatedData)
+      setLastUpdate(new Date())
+    } catch (error) {
+      console.error('Failed to fetch real data:', error)
+      // Fallback to mock data
+      setSensorData(generateSensorData())
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
 
   // Initial data load
   useEffect(() => {
-    setSensorData(generateSensorData())
-  }, [])
+    fetchRealData()
+  }, [fetchRealData])
 
   // Simulate live updates
   useEffect(() => {
     if (!isLive) return
 
     const interval = setInterval(() => {
-      setSensorData(generateSensorData())
-      setLastUpdate(new Date())
-    }, 10000) // Update every 10 seconds
+      fetchRealData()
+    }, 30000) // Update every 30 seconds for real API
 
     return () => clearInterval(interval)
-  }, [isLive])
+  }, [isLive, fetchRealData])
 
   const getKPICards = (): KPICardData[] => {
     const cityData = sensorData.filter(d => d.cityId === selectedCity)
@@ -107,7 +160,7 @@ export default function Home() {
             </div>
 
             <div className="flex items-center gap-2 text-sm text-muted">
-              <RefreshCw className="w-4 h-4" />
+              <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
               <span>
                 {t('common.lastUpdated')}: {lastUpdate.toLocaleTimeString()}
               </span>
