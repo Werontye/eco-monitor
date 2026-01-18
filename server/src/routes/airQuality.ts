@@ -20,7 +20,7 @@ const cityCoordinates: Record<string, { lat: number; lon: number }> = {
   margilan: { lat: 40.4703, lon: 71.7144 },
 }
 
-// Get AQI status from value
+// Get AQI status from value (US EPA standard)
 function getAqiStatus(aqi: number): string {
   if (aqi <= 50) return 'good'
   if (aqi <= 100) return 'moderate'
@@ -29,91 +29,155 @@ function getAqiStatus(aqi: number): string {
   return 'hazardous'
 }
 
-// Get air quality for a city using geo coordinates
+// Fetch from IQAir API
+async function fetchFromIQAir(lat: number, lon: number, apiKey: string) {
+  const response = await fetch(
+    `https://api.airvisual.com/v2/nearest_city?lat=${lat}&lon=${lon}&key=${apiKey}`
+  )
+
+  if (!response.ok) {
+    throw new Error(`IQAir API error: ${response.status}`)
+  }
+
+  const data = await response.json()
+
+  if (data.status !== 'success') {
+    throw new Error(data.data?.message || 'IQAir API error')
+  }
+
+  return data
+}
+
+// Fetch from AQICN API (fallback)
+async function fetchFromAQICN(lat: number, lon: number, apiKey: string) {
+  const response = await fetch(
+    `https://api.waqi.info/feed/geo:${lat};${lon}/?token=${apiKey}`
+  )
+
+  if (!response.ok) {
+    throw new Error(`AQICN API error: ${response.status}`)
+  }
+
+  const data = await response.json()
+
+  if (data.status !== 'ok') {
+    throw new Error('AQICN data not available')
+  }
+
+  return data
+}
+
+// Get air quality for a city
 router.get('/:cityId', async (req, res) => {
   const { cityId } = req.params
-  const apiKey = process.env.AQICN_API_KEY
-
-  if (!apiKey) {
-    return res.status(500).json({ error: 'AQICN API key not configured' })
-  }
+  const iqairKey = process.env.IQAIR_API_KEY
+  const aqicnKey = process.env.AQICN_API_KEY
 
   const coords = cityCoordinates[cityId]
   if (!coords) {
     return res.status(404).json({ error: 'City not found' })
   }
 
-  try {
-    // Use geo-based API endpoint for accurate location data
-    const response = await fetch(
-      `https://api.waqi.info/feed/geo:${coords.lat};${coords.lon}/?token=${apiKey}`
-    )
+  // Try IQAir first (more accurate for Central Asia)
+  if (iqairKey) {
+    try {
+      const data = await fetchFromIQAir(coords.lat, coords.lon, iqairKey)
+      const pollution = data.data.current.pollution
+      const aqi = pollution.aqius // US AQI standard
 
-    if (!response.ok) {
-      throw new Error(`AQICN API error: ${response.status}`)
+      console.log(`IQAir AQI for ${cityId}: ${aqi} from ${data.data.city}`)
+
+      return res.json({
+        cityId,
+        aqi,
+        status: getAqiStatus(aqi),
+        pm25: pollution.mainus === 'p2' ? aqi : undefined,
+        station: data.data.city,
+        source: 'iqair',
+        timestamp: pollution.ts,
+      })
+    } catch (error) {
+      console.error('IQAir API error:', error)
+      // Fall through to AQICN
     }
-
-    const data = await response.json()
-
-    if (data.status !== 'ok') {
-      return res.status(404).json({ error: 'City data not available' })
-    }
-
-    const aqi = data.data.aqi
-    const iaqi = data.data.iaqi || {}
-
-    // Log which station we're getting data from
-    console.log(`AQI for ${cityId}: ${aqi} from station: ${data.data.city?.name}`)
-
-    res.json({
-      cityId,
-      aqi: typeof aqi === 'number' ? aqi : parseInt(aqi) || 0,
-      status: getAqiStatus(typeof aqi === 'number' ? aqi : parseInt(aqi) || 0),
-      pm25: iaqi.pm25?.v,
-      pm10: iaqi.pm10?.v,
-      o3: iaqi.o3?.v,
-      no2: iaqi.no2?.v,
-      so2: iaqi.so2?.v,
-      co: iaqi.co?.v,
-      station: data.data.city?.name,
-      timestamp: data.data.time?.iso || new Date().toISOString(),
-    })
-  } catch (error) {
-    console.error('AQI API error:', error)
-    res.status(500).json({ error: 'Failed to fetch air quality data' })
   }
+
+  // Fallback to AQICN
+  if (aqicnKey) {
+    try {
+      const data = await fetchFromAQICN(coords.lat, coords.lon, aqicnKey)
+      const aqi = data.data.aqi
+      const iaqi = data.data.iaqi || {}
+
+      console.log(`AQICN AQI for ${cityId}: ${aqi} from ${data.data.city?.name}`)
+
+      return res.json({
+        cityId,
+        aqi: typeof aqi === 'number' ? aqi : parseInt(aqi) || 0,
+        status: getAqiStatus(typeof aqi === 'number' ? aqi : parseInt(aqi) || 0),
+        pm25: iaqi.pm25?.v,
+        pm10: iaqi.pm10?.v,
+        o3: iaqi.o3?.v,
+        no2: iaqi.no2?.v,
+        so2: iaqi.so2?.v,
+        co: iaqi.co?.v,
+        station: data.data.city?.name,
+        source: 'aqicn',
+        timestamp: data.data.time?.iso || new Date().toISOString(),
+      })
+    } catch (error) {
+      console.error('AQICN API error:', error)
+    }
+  }
+
+  return res.status(500).json({ error: 'No AQI API configured or available' })
 })
 
 // Get air quality for all cities
 router.get('/', async (req, res) => {
-  const apiKey = process.env.AQICN_API_KEY
+  const iqairKey = process.env.IQAIR_API_KEY
+  const aqicnKey = process.env.AQICN_API_KEY
 
-  if (!apiKey) {
-    return res.status(500).json({ error: 'AQICN API key not configured' })
+  if (!iqairKey && !aqicnKey) {
+    return res.status(500).json({ error: 'No AQI API key configured' })
   }
 
   try {
     const results = await Promise.all(
       Object.entries(cityCoordinates).map(async ([cityId, coords]) => {
-        try {
-          const response = await fetch(
-            `https://api.waqi.info/feed/geo:${coords.lat};${coords.lon}/?token=${apiKey}`
-          )
-
-          if (!response.ok) return null
-
-          const data = await response.json()
-          if (data.status !== 'ok') return null
-
-          const aqi = data.data.aqi
-          return {
-            cityId,
-            aqi: typeof aqi === 'number' ? aqi : parseInt(aqi) || 0,
-            status: getAqiStatus(typeof aqi === 'number' ? aqi : parseInt(aqi) || 0),
+        // Try IQAir first
+        if (iqairKey) {
+          try {
+            const data = await fetchFromIQAir(coords.lat, coords.lon, iqairKey)
+            const aqi = data.data.current.pollution.aqius
+            return {
+              cityId,
+              aqi,
+              status: getAqiStatus(aqi),
+              source: 'iqair',
+            }
+          } catch {
+            // Fall through to AQICN
           }
-        } catch {
-          return null
         }
+
+        // Fallback to AQICN
+        if (aqicnKey) {
+          try {
+            const data = await fetchFromAQICN(coords.lat, coords.lon, aqicnKey)
+            const aqi = data.data.aqi
+            return {
+              cityId,
+              aqi: typeof aqi === 'number' ? aqi : parseInt(aqi) || 0,
+              status: getAqiStatus(typeof aqi === 'number' ? aqi : parseInt(aqi) || 0),
+              source: 'aqicn',
+            }
+          } catch {
+            return null
+          }
+        }
+
+        return null
       })
     )
 
