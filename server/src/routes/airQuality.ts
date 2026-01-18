@@ -2,22 +2,22 @@ import { Router } from 'express'
 
 const router = Router()
 
-// City coordinates for geo-based AQI lookup
-const cityCoordinates: Record<string, { lat: number; lon: number }> = {
-  tashkent: { lat: 41.2995, lon: 69.2401 },
-  samarkand: { lat: 39.6542, lon: 66.9597 },
-  bukhara: { lat: 39.7681, lon: 64.4556 },
-  namangan: { lat: 40.9983, lon: 71.6726 },
-  andijan: { lat: 40.7821, lon: 72.3442 },
-  fergana: { lat: 40.3864, lon: 71.7864 },
-  nukus: { lat: 42.4619, lon: 59.6166 },
-  urgench: { lat: 41.5500, lon: 60.6333 },
-  kokand: { lat: 40.5286, lon: 70.9425 },
-  navoi: { lat: 40.0844, lon: 65.3792 },
-  jizzakh: { lat: 40.1158, lon: 67.8422 },
-  termez: { lat: 37.2242, lon: 67.2783 },
-  qarshi: { lat: 38.8600, lon: 65.8000 },
-  margilan: { lat: 40.4703, lon: 71.7144 },
+// City coordinates and names for geo-based AQI lookup
+const cityData: Record<string, { lat: number; lon: number; names: string[] }> = {
+  tashkent: { lat: 41.2995, lon: 69.2401, names: ['tashkent', 'ташкент', 'toshkent'] },
+  samarkand: { lat: 39.6542, lon: 66.9597, names: ['samarkand', 'самарканд', 'samarqand'] },
+  bukhara: { lat: 39.7681, lon: 64.4556, names: ['bukhara', 'бухара', 'buxoro'] },
+  namangan: { lat: 40.9983, lon: 71.6726, names: ['namangan', 'наманган'] },
+  andijan: { lat: 40.7821, lon: 72.3442, names: ['andijan', 'андижан', 'andijon'] },
+  fergana: { lat: 40.3864, lon: 71.7864, names: ['fergana', 'фергана', 'fargona'] },
+  nukus: { lat: 42.4619, lon: 59.6166, names: ['nukus', 'нукус'] },
+  urgench: { lat: 41.5500, lon: 60.6333, names: ['urgench', 'ургенч', 'urganch'] },
+  kokand: { lat: 40.5286, lon: 70.9425, names: ['kokand', 'коканд', 'qoqon'] },
+  navoi: { lat: 40.0844, lon: 65.3792, names: ['navoi', 'навои', 'navoiy'] },
+  jizzakh: { lat: 40.1158, lon: 67.8422, names: ['jizzakh', 'джизак', 'jizzax'] },
+  termez: { lat: 37.2242, lon: 67.2783, names: ['termez', 'термез', 'termiz'] },
+  qarshi: { lat: 38.8600, lon: 65.8000, names: ['qarshi', 'карши', 'qarshy'] },
+  margilan: { lat: 40.4703, lon: 71.7144, names: ['margilan', 'маргилан', 'marg\'ilon'] },
 }
 
 // Cache for AQI data (5 minutes TTL)
@@ -70,6 +70,29 @@ function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+// Check if IQAir returned data for the correct city (not a distant city)
+function isCorrectCity(returnedCity: string, expectedCityId: string): boolean {
+  const city = cityData[expectedCityId]
+  if (!city) return false
+
+  const returnedLower = returnedCity.toLowerCase()
+
+  // Check if returned city matches any of the expected names
+  for (const name of city.names) {
+    if (returnedLower.includes(name.toLowerCase()) || name.toLowerCase().includes(returnedLower)) {
+      return true
+    }
+  }
+
+  // Also check if it's in Uzbekistan at all
+  if (returnedLower.includes('uzbekistan') || returnedLower.includes('узбекистан')) {
+    // Check distance - if IQAir returns a city, it might be close enough
+    return true
+  }
+
+  return false
+}
+
 // Fetch from IQAir API
 async function fetchFromIQAir(lat: number, lon: number, apiKey: string) {
   const response = await fetch(
@@ -89,7 +112,7 @@ async function fetchFromIQAir(lat: number, lon: number, apiKey: string) {
   return data
 }
 
-// Fetch from AQICN API (fallback)
+// Fetch from AQICN API
 async function fetchFromAQICN(lat: number, lon: number, apiKey: string) {
   const response = await fetch(
     `https://api.waqi.info/feed/geo:${lat};${lon}/?token=${apiKey}`
@@ -113,41 +136,46 @@ async function fetchCityAqi(cityId: string, coords: { lat: number; lon: number }
   // Check cache first
   const cached = getCached(cityId)
   if (cached) {
-    console.log(`Cache hit for ${cityId}: AQI ${cached.aqi}`)
+    console.log(`Cache hit for ${cityId}: AQI ${cached.aqi} (${cached.source})`)
     return cached
   }
 
   const iqairKey = process.env.IQAIR_API_KEY
   const aqicnKey = process.env.AQICN_API_KEY
 
-  // Try IQAir first (more accurate for Central Asia)
+  // Try IQAir first - but only use if it returns data for THIS city
   if (iqairKey) {
     try {
       const data = await fetchFromIQAir(coords.lat, coords.lon, iqairKey)
+      const returnedCity = data.data.city || ''
       const pollution = data.data.current.pollution
       const aqi = pollution.aqius
 
-      console.log(`IQAir AQI for ${cityId}: ${aqi} from ${data.data.city}`)
+      // Check if IQAir returned data for the correct city
+      if (isCorrectCity(returnedCity, cityId)) {
+        console.log(`IQAir AQI for ${cityId}: ${aqi} from ${returnedCity} ✓`)
 
-      const result: AqiData = {
-        cityId,
-        aqi,
-        status: getAqiStatus(aqi),
-        pm25: pollution.mainus === 'p2' ? aqi : undefined,
-        station: data.data.city,
-        source: 'iqair',
-        timestamp: pollution.ts,
+        const result: AqiData = {
+          cityId,
+          aqi,
+          status: getAqiStatus(aqi),
+          pm25: pollution.mainus === 'p2' ? aqi : undefined,
+          station: returnedCity,
+          source: 'iqair',
+          timestamp: pollution.ts,
+        }
+
+        setCache(cityId, result)
+        return result
+      } else {
+        console.log(`IQAir returned ${returnedCity} instead of ${cityId}, falling back to AQICN`)
       }
-
-      setCache(cityId, result)
-      return result
     } catch (error) {
       console.error(`IQAir error for ${cityId}:`, error)
-      // Fall through to AQICN
     }
   }
 
-  // Fallback to AQICN
+  // Use AQICN for cities without IQAir coverage
   if (aqicnKey) {
     try {
       const data = await fetchFromAQICN(coords.lat, coords.lon, aqicnKey)
@@ -186,12 +214,12 @@ async function fetchCityAqi(cityId: string, coords: { lat: number; lon: number }
 router.get('/:cityId', async (req, res) => {
   const { cityId } = req.params
 
-  const coords = cityCoordinates[cityId]
-  if (!coords) {
+  const city = cityData[cityId]
+  if (!city) {
     return res.status(404).json({ error: 'City not found' })
   }
 
-  const result = await fetchCityAqi(cityId, coords)
+  const result = await fetchCityAqi(cityId, { lat: city.lat, lon: city.lon })
 
   if (result) {
     return res.json(result)
@@ -211,18 +239,18 @@ router.get('/', async (_req, res) => {
 
   try {
     const results: AqiData[] = []
-    const cities = Object.entries(cityCoordinates)
+    const cities = Object.entries(cityData)
 
     // Process cities sequentially with delay to avoid rate limiting
-    for (const [cityId, coords] of cities) {
-      const result = await fetchCityAqi(cityId, coords)
+    for (const [cityId, city] of cities) {
+      const result = await fetchCityAqi(cityId, { lat: city.lat, lon: city.lon })
       if (result) {
         results.push(result)
       }
 
       // Small delay between requests to avoid rate limiting (only if not cached)
       if (!getCached(cityId)) {
-        await delay(200) // 200ms delay between API calls
+        await delay(250) // 250ms delay between API calls
       }
     }
 
