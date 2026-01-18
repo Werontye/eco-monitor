@@ -51,9 +51,14 @@ COPY --from=backend-builder /app/server/package.json ./server/
 # Copy nginx configuration template
 COPY nginx.conf /etc/nginx/templates/default.conf.template
 
-# Copy startup script
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
+# Create startup script inline to avoid CRLF issues from Windows
+RUN printf '#!/bin/sh\n\
+set -e\n\
+export PORT="${PORT:-80}"\n\
+envsubst '"'"'${PORT}'"'"' < /etc/nginx/templates/default.conf.template > /etc/nginx/http.d/default.conf\n\
+cd /app/server && node dist/index.js &\n\
+sleep 1\n\
+nginx -g "daemon off;"\n' > /start.sh && chmod +x /start.sh
 
 # Expose port
 EXPOSE 80
