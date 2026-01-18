@@ -17,22 +17,22 @@ const features = [
   {
     icon: Database,
     titleKey: 'about.dataSources',
-    desc: 'We collect data from government meteorological stations, partner sensors, and satellite imagery to provide comprehensive environmental insights.',
+    descKey: 'about.dataSourcesText',
     color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400',
   },
   {
     icon: Shield,
     titleKey: 'about.methodology',
-    desc: 'Our data processing follows international standards (WHO, EPA) with regular calibration and validation against reference measurements.',
+    descKey: 'about.methodologyText',
     color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400',
   },
 ]
 
 const partners = [
-  { name: 'Ministry of Ecology', type: 'Government' },
-  { name: 'Uzhydromet', type: 'Data Provider' },
-  { name: 'Tashkent State University', type: 'Research' },
-  { name: 'UNDP Uzbekistan', type: 'International' },
+  { nameKey: 'about.partners.ecology', typeKey: 'about.partners.government' },
+  { nameKey: 'about.partners.uzhydromet', typeKey: 'about.partners.dataProvider' },
+  { nameKey: 'about.partners.university', typeKey: 'about.partners.research' },
+  { nameKey: 'about.partners.undp', typeKey: 'about.partners.international' },
 ]
 
 export default function About() {
@@ -60,7 +60,7 @@ export default function About() {
         >
           <h1 className="text-4xl font-bold mb-4">{t('about.title')}</h1>
           <p className="text-xl text-muted max-w-2xl mx-auto">
-            Empowering communities with real-time environmental data for a healthier, sustainable Uzbekistan.
+            {t('about.subtitle')}
           </p>
         </motion.div>
 
@@ -85,7 +85,7 @@ export default function About() {
                   </div>
                   <h3 className="text-lg font-semibold mb-3">{t(feature.titleKey)}</h3>
                   <p className="text-sm text-muted">
-                    {feature.descKey ? t(feature.descKey) : feature.desc}
+                    {t(feature.descKey)}
                   </p>
                 </CardContent>
               </Card>
@@ -102,22 +102,22 @@ export default function About() {
         >
           <Card>
             <CardHeader>
-              <CardTitle>How We Collect Data</CardTitle>
+              <CardTitle>{t('about.howWeCollect')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {[
-                  { step: 1, title: 'Sensor Network', desc: 'IoT sensors across major cities' },
-                  { step: 2, title: 'Data Processing', desc: 'Real-time validation & cleaning' },
-                  { step: 3, title: 'AI Analysis', desc: 'Pattern detection & predictions' },
-                  { step: 4, title: 'User Delivery', desc: 'Live dashboard & alerts' },
+                  { step: 1, titleKey: 'about.steps.sensors', descKey: 'about.steps.sensorsDesc' },
+                  { step: 2, titleKey: 'about.steps.processing', descKey: 'about.steps.processingDesc' },
+                  { step: 3, titleKey: 'about.steps.analysis', descKey: 'about.steps.analysisDesc' },
+                  { step: 4, titleKey: 'about.steps.delivery', descKey: 'about.steps.deliveryDesc' },
                 ].map((item, index) => (
                   <div key={item.step} className="text-center">
                     <div className="w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center mx-auto mb-3">
                       <span className="text-lg font-bold text-primary-600 dark:text-primary-400">{item.step}</span>
                     </div>
-                    <h4 className="font-medium mb-1">{item.title}</h4>
-                    <p className="text-sm text-muted">{item.desc}</p>
+                    <h4 className="font-medium mb-1">{t(item.titleKey)}</h4>
+                    <p className="text-sm text-muted">{t(item.descKey)}</p>
                     {index < 3 && (
                       <div className="hidden md:block absolute top-6 -right-3 w-6 text-muted">
                         <ExternalLink className="w-4 h-4 rotate-90" />
@@ -141,21 +141,21 @@ export default function About() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="w-5 h-5" />
-                {t('about.partners')}
+                {t('about.partners.title')}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {partners.map((partner) => (
                   <div
-                    key={partner.name}
+                    key={partner.nameKey}
                     className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 text-center"
                   >
                     <div className="w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center mx-auto mb-3">
                       <Users className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                     </div>
-                    <p className="font-medium text-sm">{partner.name}</p>
-                    <p className="text-xs text-muted">{partner.type}</p>
+                    <p className="font-medium text-sm">{t(partner.nameKey)}</p>
+                    <p className="text-xs text-muted">{t(partner.typeKey)}</p>
                   </div>
                 ))}
               </div>
@@ -180,11 +180,11 @@ export default function About() {
             <CardContent>
               <div className="prose prose-sm dark:prose-invert max-w-none">
                 <ul className="space-y-2 text-sm text-muted">
-                  <li>We collect minimal personal data necessary for service operation</li>
-                  <li>Environmental sensor data is anonymized and aggregated</li>
-                  <li>We do not sell or share personal information with third parties</li>
-                  <li>All data transmission is encrypted using industry-standard protocols</li>
-                  <li>Users can request data deletion at any time</li>
+                  <li>{t('about.privacyItems.minimal')}</li>
+                  <li>{t('about.privacyItems.anonymized')}</li>
+                  <li>{t('about.privacyItems.noSell')}</li>
+                  <li>{t('about.privacyItems.encrypted')}</li>
+                  <li>{t('about.privacyItems.deletion')}</li>
                 </ul>
               </div>
             </CardContent>
@@ -214,33 +214,33 @@ export default function About() {
                   <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle className="w-8 h-8 text-green-500" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">Message Sent!</h3>
-                  <p className="text-muted">We'll get back to you as soon as possible.</p>
+                  <h3 className="text-lg font-semibold mb-2">{t('about.contactForm.sent')}</h3>
+                  <p className="text-muted">{t('about.contactForm.sentDesc')}</p>
                   <Button
                     variant="secondary"
                     className="mt-4"
                     onClick={() => setIsSubmitted(false)}
                   >
-                    Send Another Message
+                    {t('about.contactForm.sendAnother')}
                   </Button>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
                   <Input
-                    label="Name"
+                    label={t('about.contactForm.name')}
                     value={contactForm.name}
                     onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
                     required
                   />
                   <Input
-                    label="Email"
+                    label={t('about.contactForm.email')}
                     type="email"
                     value={contactForm.email}
                     onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
                     required
                   />
                   <div>
-                    <label className="block text-sm font-medium mb-1.5">Message</label>
+                    <label className="block text-sm font-medium mb-1.5">{t('about.contactForm.message')}</label>
                     <textarea
                       value={contactForm.message}
                       onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}

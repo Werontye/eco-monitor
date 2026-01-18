@@ -234,13 +234,52 @@
   },
   "about": {
     "title": "EcoMonitor haqida",
+    "subtitle": "Sog'lom va barqaror O'zbekiston uchun real vaqtda ekologik ma'lumotlar bilan jamoalarni qo'llab-quvvatlash.",
     "mission": "Bizning maqsadimiz",
     "missionText": "O'zbekiston aholisiga real vaqtda atrof-muhit ma'lumotlarini taqdim etish va sog'lom hayot uchun ongli qarorlar qabul qilishga yordam berish.",
     "dataSources": "Ma'lumot manbalari",
+    "dataSourcesText": "Biz davlat meteorologiya stansiyalari, hamkor sensorlari va sun'iy yo'ldosh tasvirlaridan ma'lumotlar to'playmiz.",
     "methodology": "Metodologiya",
+    "methodologyText": "Ma'lumotlarni qayta ishlash xalqaro standartlarga (JSST, EPA) muvofiq amalga oshiriladi, muntazam kalibrlash va tekshirish bilan.",
     "privacy": "Maxfiylik siyosati",
     "contact": "Biz bilan bog'lanish",
-    "partners": "Hamkorlarimiz"
+    "partners": {
+      "title": "Hamkorlarimiz",
+      "ecology": "Ekologiya vazirligi",
+      "uzhydromet": "O'zgidromet",
+      "university": "Toshkent davlat universiteti",
+      "undp": "BMTTD O'zbekiston",
+      "government": "Davlat",
+      "dataProvider": "Ma'lumot yetkazib beruvchi",
+      "research": "Tadqiqot",
+      "international": "Xalqaro"
+    },
+    "howWeCollect": "Ma'lumotlarni qanday to'playmiz",
+    "steps": {
+      "sensors": "Sensor tarmog'i",
+      "sensorsDesc": "Yirik shaharlarda IoT sensorlari",
+      "processing": "Ma'lumotlarni qayta ishlash",
+      "processingDesc": "Real vaqtda tekshirish va tozalash",
+      "analysis": "AI tahlili",
+      "analysisDesc": "Naqshlarni aniqlash va bashoratlar",
+      "delivery": "Foydalanuvchiga yetkazish",
+      "deliveryDesc": "Jonli panel va ogohlantirishlar"
+    },
+    "privacyItems": {
+      "minimal": "Xizmat ishlashi uchun zarur bo'lgan minimal shaxsiy ma'lumotlarni to'playmiz",
+      "anonymized": "Ekologik sensor ma'lumotlari anonim va jamlangan",
+      "noSell": "Shaxsiy ma'lumotlarni uchinchi tomonlarga sotmaymiz yoki bermaymiz",
+      "encrypted": "Barcha ma'lumotlar uzatilishi sanoat standartlari yordamida shifrlangan",
+      "deletion": "Foydalanuvchilar istalgan vaqtda ma'lumotlarni o'chirishni so'rashlari mumkin"
+    },
+    "contactForm": {
+      "name": "Ism",
+      "email": "Email",
+      "message": "Xabar",
+      "sent": "Xabar yuborildi!",
+      "sentDesc": "Imkon qadar tezroq siz bilan bog'lanamiz.",
+      "sendAnother": "Boshqa xabar yuborish"
+    }
   },
   "cities": {
     "tashkent": "Toshkent",

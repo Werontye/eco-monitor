@@ -234,13 +234,52 @@
   },
   "about": {
     "title": "About EcoMonitor",
+    "subtitle": "Empowering communities with real-time environmental data for a healthier, sustainable Uzbekistan.",
     "mission": "Our Mission",
     "missionText": "To provide accessible, real-time environmental data to residents of Uzbekistan, empowering informed decisions for healthier living.",
     "dataSources": "Data Sources",
+    "dataSourcesText": "We collect data from government meteorological stations, partner sensors, and satellite imagery to provide comprehensive environmental insights.",
     "methodology": "Methodology",
+    "methodologyText": "Our data processing follows international standards (WHO, EPA) with regular calibration and validation against reference measurements.",
     "privacy": "Privacy Policy",
     "contact": "Contact Us",
-    "partners": "Our Partners"
+    "partners": {
+      "title": "Our Partners",
+      "ecology": "Ministry of Ecology",
+      "uzhydromet": "Uzhydromet",
+      "university": "Tashkent State University",
+      "undp": "UNDP Uzbekistan",
+      "government": "Government",
+      "dataProvider": "Data Provider",
+      "research": "Research",
+      "international": "International"
+    },
+    "howWeCollect": "How We Collect Data",
+    "steps": {
+      "sensors": "Sensor Network",
+      "sensorsDesc": "IoT sensors across major cities",
+      "processing": "Data Processing",
+      "processingDesc": "Real-time validation & cleaning",
+      "analysis": "AI Analysis",
+      "analysisDesc": "Pattern detection & predictions",
+      "delivery": "User Delivery",
+      "deliveryDesc": "Live dashboard & alerts"
+    },
+    "privacyItems": {
+      "minimal": "We collect minimal personal data necessary for service operation",
+      "anonymized": "Environmental sensor data is anonymized and aggregated",
+      "noSell": "We do not sell or share personal information with third parties",
+      "encrypted": "All data transmission is encrypted using industry-standard protocols",
+      "deletion": "Users can request data deletion at any time"
+    },
+    "contactForm": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "sent": "Message Sent!",
+      "sentDesc": "We'll get back to you as soon as possible.",
+      "sendAnother": "Send Another Message"
+    }
   },
   "cities": {
     "tashkent": "Tashkent",
