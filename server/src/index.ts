@@ -8,7 +8,8 @@ import { aiRouter } from './routes/ai.js'
 dotenv.config()
 
 const app = express()
-const PORT = process.env.PORT || 3001
+// Always use 3001 for backend (nginx proxies to this port)
+const PORT = process.env.API_PORT || 3001
 
 app.use(cors())
 app.use(express.json())
