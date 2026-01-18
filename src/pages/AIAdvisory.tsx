@@ -6,6 +6,7 @@ import Card, { CardContent } from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 import { ChatMessage } from '@/types'
+import { api } from '@/services/api'
 
 const suggestionPrompts = [
   { key: 'air', icon: Wind },
@@ -85,10 +86,11 @@ const aiResponses: Record<string, string> = {
 }
 
 export default function AIAdvisory() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [inputValue, setInputValue] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const [useRealAI, setUseRealAI] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const chatContainerRef = useRef<HTMLDivElement>(null)
@@ -99,6 +101,13 @@ export default function AIAdvisory() {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
     }
   }, [messages])
+
+  // Check if API is available
+  useEffect(() => {
+    api.checkHealth().then(available => {
+      setUseRealAI(available)
+    })
+  }, [])
 
   const handleSendMessage = async (content: string) => {
     if (!content.trim()) return
@@ -114,31 +123,22 @@ export default function AIAdvisory() {
     setInputValue('')
     setIsTyping(true)
 
-    // Simulate AI thinking
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    // Find matching response or use default
     let responseContent = ''
-    const lowerContent = content.toLowerCase()
 
-    if (lowerContent.includes('air') || lowerContent.includes('aqi') || lowerContent.includes('воздух') || lowerContent.includes('havo')) {
-      responseContent = aiResponses.air
-    } else if (lowerContent.includes('water') || lowerContent.includes('вода') || lowerContent.includes('suv')) {
-      responseContent = aiResponses.water
-    } else if (lowerContent.includes('plant') || lowerContent.includes('растен') || lowerContent.includes('osimlik')) {
-      responseContent = aiResponses.plants
-    } else if (lowerContent.includes('exercise') || lowerContent.includes('health') || lowerContent.includes('safe') || lowerContent.includes('спорт') || lowerContent.includes('sport')) {
-      responseContent = aiResponses.health
-    } else {
-      responseContent = `I understand you're asking about "${content}".
-
-Based on current environmental data, I recommend:
-
-1. **Check the Dashboard** for real-time metrics
-2. **Use the Monitoring page** for detailed analysis
-3. **Explore Data & Analysis** for historical trends
-
-Is there something specific about air quality, water quality, or health recommendations I can help you with?`
+    try {
+      if (useRealAI) {
+        // Use real OpenAI API
+        const response = await api.chat(content, i18n.language)
+        responseContent = response.message
+      } else {
+        // Fallback to mock responses
+        await new Promise(resolve => setTimeout(resolve, 1500))
+        responseContent = getMockResponse(content)
+      }
+    } catch (error) {
+      console.error('AI API error:', error)
+      // Fallback to mock on error
+      responseContent = getMockResponse(content)
     }
 
     const assistantMessage: ChatMessage = {
@@ -150,6 +150,30 @@ Is there something specific about air quality, water quality, or health recommen
 
     setIsTyping(false)
     setMessages(prev => [...prev, assistantMessage])
+  }
+
+  const getMockResponse = (content: string): string => {
+    const lowerContent = content.toLowerCase()
+
+    if (lowerContent.includes('air') || lowerContent.includes('aqi') || lowerContent.includes('воздух') || lowerContent.includes('havo')) {
+      return aiResponses.air
+    } else if (lowerContent.includes('water') || lowerContent.includes('вода') || lowerContent.includes('suv')) {
+      return aiResponses.water
+    } else if (lowerContent.includes('plant') || lowerContent.includes('растен') || lowerContent.includes('osimlik')) {
+      return aiResponses.plants
+    } else if (lowerContent.includes('exercise') || lowerContent.includes('health') || lowerContent.includes('safe') || lowerContent.includes('спорт') || lowerContent.includes('sport')) {
+      return aiResponses.health
+    }
+
+    return `I understand you're asking about "${content}".
+
+Based on current environmental data, I recommend:
+
+1. **Check the Dashboard** for real-time metrics
+2. **Use the Monitoring page** for detailed analysis
+3. **Explore Data & Analysis** for historical trends
+
+Is there something specific about air quality, water quality, or health recommendations I can help you with?`
   }
 
   const handleSuggestionClick = (key: string) => {
