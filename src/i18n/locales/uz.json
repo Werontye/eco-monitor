@@ -235,35 +235,68 @@
   "about": {
     "title": "EcoMonitor haqida",
     "subtitle": "Sog'lom va barqaror O'zbekiston uchun real vaqtda ekologik ma'lumotlar bilan jamoalarni qo'llab-quvvatlash.",
-    "mission": "Bizning maqsadimiz",
-    "missionText": "O'zbekiston aholisiga real vaqtda atrof-muhit ma'lumotlarini taqdim etish va sog'lom hayot uchun ongli qarorlar qabul qilishga yordam berish.",
-    "dataSources": "Ma'lumot manbalari",
-    "dataSourcesText": "Biz davlat meteorologiya stansiyalari, hamkor sensorlari va sun'iy yo'ldosh tasvirlaridan ma'lumotlar to'playmiz.",
-    "methodology": "Metodologiya",
-    "methodologyText": "Ma'lumotlarni qayta ishlash xalqaro standartlarga (JSST, EPA) muvofiq amalga oshiriladi, muntazam kalibrlash va tekshirish bilan.",
-    "privacy": "Maxfiylik siyosati",
-    "contact": "Biz bilan bog'lanish",
-    "partners": {
-      "title": "Hamkorlarimiz",
-      "ecology": "Ekologiya vazirligi",
-      "uzhydromet": "O'zgidromet",
-      "university": "Toshkent davlat universiteti",
-      "undp": "BMTTD O'zbekiston",
-      "government": "Davlat",
-      "dataProvider": "Ma'lumot yetkazib beruvchi",
-      "research": "Tadqiqot",
-      "international": "Xalqaro"
+    "heroDescription": "EcoMonitor — O'zbekiston fuqarolariga havo sifati, suv holati, ob-havo sharoitlarini kuzatish va sog'liq bo'yicha shaxsiy tavsiyalar olishga yordam beradigan kompleks ekologik monitoring platformasi.",
+    "featuresTitle": "Platforma imkoniyatlari",
+    "featuresSubtitle": "Atrof-muhitni monitoring qilish va yaxshilash uchun EcoMonitor taqdim etadigan barcha vositalar va funksiyalarni kashf eting",
+    "features": {
+      "airQuality": {
+        "title": "Havo sifati monitoringi",
+        "desc": "IQAir va mahalliy stansiyalardan real vaqtda HIS ma'lumotlari. O'zbekistonning 14+ shahrida PM2.5, PM10, ozon va boshqa ifloslantiruvchilarni kuzating."
+      },
+      "waterQuality": {
+        "title": "Suv sifati indeksi",
+        "desc": "Suv parametrlarini monitoring: pH darajasi, erigan kislorod va xavfsiz suv ishlatish uchun ifloslanish ko'rsatkichlari."
+      },
+      "weather": {
+        "title": "Ob-havo ma'lumotlari",
+        "desc": "Jonli ob-havo yangilanishlari: harorat, namlik, shamol tezligi, UV indeksi va OpenWeatherMap'dan yog'ingarchilik prognozi."
+      },
+      "map": {
+        "title": "Interaktiv xarita",
+        "desc": "O'zbekiston bo'ylab ekologik ma'lumotlarning vizual taqdimoti. Batafsil ma'lumot uchun istalgan shaharga bosing."
+      },
+      "ai": {
+        "title": "Sun'iy intellekt maslahatchisi",
+        "desc": "Ilg'or AI texnologiyalari yordamida shaxsiylashtirilgan tavsiyalar va ekologik savollarga javoblar oling."
+      },
+      "analytics": {
+        "title": "Ma'lumotlar tahlili",
+        "desc": "Tarixiy tendentsiyalar, grafiklar va statistik tahlil. Tadqiqotlar uchun CSV yoki JSON formatida eksport."
+      }
     },
-    "howWeCollect": "Ma'lumotlarni qanday to'playmiz",
+    "benefitsTitle": "Nima uchun EcoMonitor",
+    "benefits": {
+      "realtime": "Real vaqtda ma'lumotlar",
+      "coverage": "14+ shahar qamrab olingan",
+      "accessible": "Qulay mobil interfeys",
+      "historical": "Tarixiy ma'lumotlarga kirish",
+      "alerts": "Ekologik ogohlantirishlar",
+      "eco": "Eko-tavsiyalar"
+    },
+    "stats": {
+      "cities": "Monitoring shaharlari",
+      "parameters": "Kuzatuv parametrlari",
+      "monitoring": "Monitoring",
+      "updates": "Yangilanish oralig'i"
+    },
+    "mission": "Bizning maqsadimiz",
+    "missionText": "O'zbekiston aholisiga real vaqtda atrof-muhit ma'lumotlarini taqdim etish va sog'liq haqida ongli qarorlar qabul qilishga yordam berish.",
+    "dataSources": "Ma'lumot manbalari",
+    "dataSourcesText": "Biz IQAir, OpenWeatherMap, AQICN va mahalliy monitoring stansiyalaridan ma'lumotlarni integratsiya qilamiz.",
+    "methodology": "Metodologiya",
+    "methodologyText": "Ma'lumotlarni qayta ishlash xalqaro standartlarga (JSST, EPA) muvofiq real vaqt tekshiruvi, keshlash va AI tahlili bilan amalga oshiriladi.",
+    "privacy": "Maxfiylik va xavfsizlik",
+    "contact": "Biz bilan bog'lanish",
+    "howWeCollect": "Qanday ishlaydi",
     "steps": {
-      "sensors": "Sensor tarmog'i",
-      "sensorsDesc": "Yirik shaharlarda IoT sensorlari",
-      "processing": "Ma'lumotlarni qayta ishlash",
-      "processingDesc": "Real vaqtda tekshirish va tozalash",
+      "sensors": "Ma'lumot to'plash",
+      "sensorsDesc": "Shaharlar bo'ylab API va sensorlar",
+      "processing": "Qayta ishlash",
+      "processingDesc": "Tekshirish va keshlash",
       "analysis": "AI tahlili",
-      "analysisDesc": "Naqshlarni aniqlash va bashoratlar",
-      "delivery": "Foydalanuvchiga yetkazish",
-      "deliveryDesc": "Jonli panel va ogohlantirishlar"
+      "analysisDesc": "Naqshlarni aniqlash va tushunchalar",
+      "delivery": "Yetkazish",
+      "deliveryDesc": "Panel va tavsiyalar"
     },
     "privacyItems": {
       "minimal": "Xizmat ishlashi uchun zarur bo'lgan minimal shaxsiy ma'lumotlarni to'playmiz",

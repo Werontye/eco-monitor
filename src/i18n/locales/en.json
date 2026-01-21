@@ -235,35 +235,68 @@
   "about": {
     "title": "About EcoMonitor",
     "subtitle": "Empowering communities with real-time environmental data for a healthier, sustainable Uzbekistan.",
+    "heroDescription": "EcoMonitor is a comprehensive environmental monitoring platform that helps citizens of Uzbekistan track air quality, water conditions, weather patterns, and receive personalized health recommendations.",
+    "featuresTitle": "Platform Features",
+    "featuresSubtitle": "Discover all the tools and capabilities that EcoMonitor offers to help you monitor and improve your environment",
+    "features": {
+      "airQuality": {
+        "title": "Air Quality Monitoring",
+        "desc": "Real-time AQI data from IQAir and local stations. Track PM2.5, PM10, ozone, and other pollutants across 14+ cities in Uzbekistan."
+      },
+      "waterQuality": {
+        "title": "Water Quality Index",
+        "desc": "Monitor water quality parameters including pH levels, dissolved oxygen, and contamination indicators for safe water usage."
+      },
+      "weather": {
+        "title": "Weather Data",
+        "desc": "Live weather updates including temperature, humidity, wind speed, UV index, and precipitation forecasts from OpenWeatherMap."
+      },
+      "map": {
+        "title": "Interactive Map",
+        "desc": "Visual representation of environmental data across Uzbekistan. Click on any city to see detailed local conditions."
+      },
+      "ai": {
+        "title": "AI Environmental Advisor",
+        "desc": "Get personalized recommendations and answers to your environmental questions powered by advanced AI technology."
+      },
+      "analytics": {
+        "title": "Data Analytics",
+        "desc": "Historical trends, charts, and statistical analysis. Export data in CSV or JSON formats for your research."
+      }
+    },
+    "benefitsTitle": "Why Choose EcoMonitor",
+    "benefits": {
+      "realtime": "Real-time data updates",
+      "coverage": "14+ cities covered",
+      "accessible": "Mobile-friendly interface",
+      "historical": "Historical data access",
+      "alerts": "Environmental alerts",
+      "eco": "Eco-friendly recommendations"
+    },
+    "stats": {
+      "cities": "Cities Monitored",
+      "parameters": "Parameters Tracked",
+      "monitoring": "Monitoring",
+      "updates": "Update Interval"
+    },
     "mission": "Our Mission",
     "missionText": "To provide accessible, real-time environmental data to residents of Uzbekistan, empowering informed decisions for healthier living.",
     "dataSources": "Data Sources",
-    "dataSourcesText": "We collect data from government meteorological stations, partner sensors, and satellite imagery to provide comprehensive environmental insights.",
+    "dataSourcesText": "We integrate data from IQAir, OpenWeatherMap, AQICN, and local monitoring stations to provide comprehensive environmental insights.",
     "methodology": "Methodology",
-    "methodologyText": "Our data processing follows international standards (WHO, EPA) with regular calibration and validation against reference measurements.",
-    "privacy": "Privacy Policy",
+    "methodologyText": "Our data processing follows international standards (WHO, EPA) with real-time validation, caching, and AI-powered analysis.",
+    "privacy": "Privacy & Security",
     "contact": "Contact Us",
-    "partners": {
-      "title": "Our Partners",
-      "ecology": "Ministry of Ecology",
-      "uzhydromet": "Uzhydromet",
-      "university": "Tashkent State University",
-      "undp": "UNDP Uzbekistan",
-      "government": "Government",
-      "dataProvider": "Data Provider",
-      "research": "Research",
-      "international": "International"
-    },
-    "howWeCollect": "How We Collect Data",
+    "howWeCollect": "How It Works",
     "steps": {
-      "sensors": "Sensor Network",
-      "sensorsDesc": "IoT sensors across major cities",
-      "processing": "Data Processing",
-      "processingDesc": "Real-time validation & cleaning",
+      "sensors": "Data Collection",
+      "sensorsDesc": "APIs and sensors across cities",
+      "processing": "Processing",
+      "processingDesc": "Real-time validation & caching",
       "analysis": "AI Analysis",
-      "analysisDesc": "Pattern detection & predictions",
-      "delivery": "User Delivery",
-      "deliveryDesc": "Live dashboard & alerts"
+      "analysisDesc": "Pattern detection & insights",
+      "delivery": "Delivery",
+      "deliveryDesc": "Live dashboard & recommendations"
     },
     "privacyItems": {
       "minimal": "We collect minimal personal data necessary for service operation",
