@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingCart, Plus, Minus, Trash2, CheckCircle, Leaf, Droplets, Package, Shell, CreditCard, Banknote, AlertCircle } from 'lucide-react'
+import { ShoppingCart, Plus, Minus, Trash2, CheckCircle, Leaf, Droplets, Package, Shell, CreditCard, Banknote, AlertCircle, X, Clock, Truck, Star, Info, Sparkles } from 'lucide-react'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
@@ -45,6 +45,7 @@ export default function HelpNow() {
     cardCvc: '',
   })
   const [validationError, setValidationError] = useState<string | null>(null)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
   const filteredProducts = activeCategory === 'all'
     ? products
@@ -170,6 +171,263 @@ export default function HelpNow() {
     }
   }
 
+  // Get delivery time based on category
+  const getDeliveryTime = (category: string) => {
+    switch (category) {
+      case 'air': return '2-3'
+      case 'water': return '1-2'
+      case 'kit': return '3-5'
+      default: return '2-4'
+    }
+  }
+
+  // Get benefits for each product category
+  const getBenefits = (product: Product) => {
+    const benefitsMap: Record<string, string[]> = {
+      air: ['helpNow.detail.benefits.purifyAir', 'helpNow.detail.benefits.naturalDecor', 'helpNow.detail.benefits.lowMaintenance'],
+      water: ['helpNow.detail.benefits.filterWater', 'helpNow.detail.benefits.indicatorHealth', 'helpNow.detail.benefits.ecoFriendly'],
+      kit: ['helpNow.detail.benefits.comprehensiveMonitoring', 'helpNow.detail.benefits.digitalReadings', 'helpNow.detail.benefits.professionalGrade'],
+    }
+    return benefitsMap[product.category] || benefitsMap.air
+  }
+
+  // Product Detail Modal
+  const ProductDetailModal = ({ product, onClose }: { product: Product; onClose: () => void }) => {
+    const Icon = getCategoryIcon(product.category)
+    const isSnail = product.id === 'ramshorn-snails'
+    const ProductIcon = isSnail ? Shell : Icon
+    const deliveryDays = getDeliveryTime(product.category)
+    const benefits = getBenefits(product)
+
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-surface rounded-3xl shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/20 hover:bg-black/30 text-white transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Product Image */}
+            <div className="relative h-64 sm:h-72 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 overflow-hidden">
+              {product.image ? (
+                <motion.img
+                  initial={{ scale: 1.1 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  src={product.image}
+                  alt={t(product.nameKey)}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', delay: 0.2 }}
+                  >
+                    <ProductIcon className={cn(
+                      'w-32 h-32',
+                      product.category === 'air' && 'text-green-400',
+                      product.category === 'water' && 'text-cyan-400',
+                      product.category === 'kit' && 'text-purple-400'
+                    )} />
+                  </motion.div>
+                </div>
+              )}
+
+              {/* Category Badge */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+                className="absolute top-4 left-4"
+              >
+                <span className={cn(
+                  'px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm',
+                  product.category === 'air' && 'bg-green-500/90 text-white',
+                  product.category === 'water' && 'bg-cyan-500/90 text-white',
+                  product.category === 'kit' && 'bg-purple-500/90 text-white'
+                )}>
+                  {t(`helpNow.categories.${product.category === 'air' ? 'airPlants' : product.category === 'water' ? 'waterPlants' : 'kits'}`)}
+                </span>
+              </motion.div>
+
+              {/* Stock Status */}
+              {!product.inStock && (
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                  <span className="text-white font-medium text-lg">{t('common.outOfStock')}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Content */}
+            <div className="p-6 sm:p-8">
+              {/* Header */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <h2 className="text-2xl sm:text-3xl font-bold pr-4">{t(product.nameKey)}</h2>
+                  <span className={cn('text-xs px-3 py-1.5 rounded-full whitespace-nowrap', difficultyColors[product.difficulty])}>
+                    {t(`helpNow.product.${product.difficulty}`)}
+                  </span>
+                </div>
+
+                {/* Price */}
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-3xl font-bold text-primary-600 dark:text-primary-400">
+                    {formatPrice(product.price)}
+                  </span>
+                  {product.inStock && (
+                    <span className="flex items-center gap-1 text-sm text-green-600 dark:text-green-400">
+                      <CheckCircle className="w-4 h-4" />
+                      {t('helpNow.detail.inStock')}
+                    </span>
+                  )}
+                </div>
+              </motion.div>
+
+              {/* Description */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="mb-6"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Info className="w-5 h-5 text-primary-500" />
+                  <h3 className="font-semibold">{t('helpNow.detail.description')}</h3>
+                </div>
+                <p className="text-muted leading-relaxed">{t(product.descriptionKey)}</p>
+              </motion.div>
+
+              {/* How it helps */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="mb-6"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <Sparkles className="w-5 h-5 text-yellow-500" />
+                  <h3 className="font-semibold">{t('helpNow.detail.howItHelps')}</h3>
+                </div>
+                <div className="space-y-2">
+                  {benefits.map((benefit, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.4 + index * 0.1 }}
+                      className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
+                        <Star className="w-4 h-4 text-primary-500" />
+                      </div>
+                      <span className="text-sm">{t(benefit)}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* What it monitors */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="mb-6"
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <ProductIcon className="w-5 h-5 text-cyan-500" />
+                  <h3 className="font-semibold">{t('helpNow.detail.monitors')}</h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {product.monitorsKeys.map((key, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.6 + i * 0.05 }}
+                    >
+                      <Badge variant="primary" size="md">{t(key)}</Badge>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Delivery Info */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+                className="mb-8"
+              >
+                <div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-primary-50 to-cyan-50 dark:from-primary-900/20 dark:to-cyan-900/20 border border-primary-200 dark:border-primary-800">
+                  <div className="w-12 h-12 rounded-xl bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
+                    <Truck className="w-6 h-6 text-primary-500" />
+                  </div>
+                  <div>
+                    <p className="font-medium">{t('helpNow.detail.delivery')}</p>
+                    <div className="flex items-center gap-2 text-sm text-muted">
+                      <Clock className="w-4 h-4" />
+                      <span>{deliveryDays} {t('helpNow.detail.days')}</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Actions */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="flex gap-3"
+              >
+                <Button
+                  variant="secondary"
+                  className="flex-1"
+                  onClick={onClose}
+                >
+                  {t('common.close')}
+                </Button>
+                <Button
+                  className="flex-1"
+                  onClick={() => {
+                    addToCart(product)
+                    onClose()
+                  }}
+                  disabled={!product.inStock}
+                >
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  {t('common.addToCart')}
+                </Button>
+              </motion.div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    )
+  }
+
   const ProductCard = ({ product }: { product: Product }) => {
     const Icon = getCategoryIcon(product.category)
     const isSnail = product.id === 'ramshorn-snails'
@@ -180,7 +438,8 @@ export default function HelpNow() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         whileHover={{ y: -4 }}
-        className="group"
+        className="group cursor-pointer"
+        onClick={() => setSelectedProduct(product)}
       >
         <Card hover className="h-full flex flex-col">
           {/* Product Image */}
@@ -189,12 +448,12 @@ export default function HelpNow() {
               <img
                 src={product.image}
                 alt={t(product.nameKey)}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
                 <ProductIcon className={cn(
-                  'w-20 h-20',
+                  'w-20 h-20 transition-transform duration-300 group-hover:scale-110',
                   product.category === 'air' && 'text-green-400',
                   product.category === 'water' && 'text-cyan-400',
                   product.category === 'kit' && 'text-purple-400'
@@ -206,6 +465,12 @@ export default function HelpNow() {
                 <span className="text-white font-medium">{t('common.outOfStock')}</span>
               </div>
             )}
+            {/* View Details Overlay */}
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+              <span className="px-4 py-2 bg-white/90 dark:bg-slate-900/90 rounded-full text-sm font-medium">
+                {t('helpNow.detail.viewDetails')}
+              </span>
+            </div>
           </div>
 
           {/* Product Name */}
@@ -240,7 +505,10 @@ export default function HelpNow() {
           {/* Add to Cart Button */}
           <Button
             className="w-full"
-            onClick={() => addToCart(product)}
+            onClick={(e) => {
+              e.stopPropagation()
+              addToCart(product)
+            }}
             disabled={!product.inStock}
           >
             <ShoppingCart className="w-4 h-4 mr-2" />
@@ -402,6 +670,14 @@ export default function HelpNow() {
             </>
           )}
         </Modal>
+
+        {/* Product Detail Modal */}
+        {selectedProduct && (
+          <ProductDetailModal
+            product={selectedProduct}
+            onClose={() => setSelectedProduct(null)}
+          />
+        )}
 
         {/* Checkout Modal */}
         <Modal

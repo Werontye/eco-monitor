@@ -129,6 +129,26 @@
       "total": "Jami",
       "items": "mahsulot"
     },
+    "detail": {
+      "viewDetails": "Batafsil ko'rish",
+      "inStock": "Mavjud",
+      "description": "Tavsif",
+      "howItHelps": "Qanday yordam beradi",
+      "monitors": "Nimani kuzatadi",
+      "delivery": "Yetkazib berish",
+      "days": "ish kunlari",
+      "benefits": {
+        "purifyAir": "Zararli toksinlarni shimib, havoni tabiiy ravishda tozalaydi",
+        "naturalDecor": "Yashash joyingizga tabiiy go'zallik va ko'katlik qo'shadi",
+        "lowMaintenance": "Parvarishlash oson, kam e'tibor talab qiladi",
+        "filterWater": "Suvni bioprotsesslar orqali tabiiy ravishda filtrlaydi va tozalaydi",
+        "indicatorHealth": "Suv ekotizimi salomatligining tabiiy ko'rsatkichi bo'lib xizmat qiladi",
+        "ecoFriendly": "Ekologik toza va barqaror yechim",
+        "comprehensiveMonitoring": "Kompleks atrof-muhit monitoring ma'lumotlarini taqdim etadi",
+        "digitalReadings": "Real vaqtda aniq ko'rsatkichlar bilan raqamli sensorlar",
+        "professionalGrade": "Ishonchli natijalar uchun professional darajadagi uskunalar"
+      }
+    },
     "checkout": {
       "title": "Buyurtmani rasmiylashtirish",
       "city": "Shaharni tanlang",

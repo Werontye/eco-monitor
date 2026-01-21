@@ -129,6 +129,26 @@
       "total": "Total",
       "items": "items"
     },
+    "detail": {
+      "viewDetails": "View Details",
+      "inStock": "In Stock",
+      "description": "Description",
+      "howItHelps": "How It Helps",
+      "monitors": "What It Monitors",
+      "delivery": "Delivery",
+      "days": "business days",
+      "benefits": {
+        "purifyAir": "Naturally purifies indoor air by absorbing harmful toxins",
+        "naturalDecor": "Adds natural beauty and greenery to your living space",
+        "lowMaintenance": "Easy to care for with minimal attention required",
+        "filterWater": "Filters and cleans water naturally through bioprocesses",
+        "indicatorHealth": "Acts as a natural indicator of water ecosystem health",
+        "ecoFriendly": "Environmentally friendly and sustainable solution",
+        "comprehensiveMonitoring": "Provides comprehensive environmental monitoring data",
+        "digitalReadings": "Digital sensors with accurate real-time readings",
+        "professionalGrade": "Professional-grade equipment for reliable results"
+      }
+    },
     "checkout": {
       "title": "Checkout",
       "city": "Select City",
