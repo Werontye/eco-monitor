@@ -38,7 +38,7 @@ router.post('/chat', async (req, res) => {
         : 'Respond in English.'
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT + ' ' + languageHint },
         { role: 'user', content: message },
